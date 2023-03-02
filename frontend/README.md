@@ -21,6 +21,14 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
+## PrimeVue (UI)
+
+See [PrimeVue docs](https://primevue.org/theming)
+
+## Pinia (store)
+
+See [pinia store docs](https://pinia.vuejs.org/core-concepts/)
+
 ## Project Setup
 
 ```sh
