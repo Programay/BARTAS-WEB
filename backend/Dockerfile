@@ -1,4 +1,4 @@
-FROM python:3.11-buster
+FROM python:3.11.2-alpine
 
 RUN mkdir backend
 WORKDIR /backend
