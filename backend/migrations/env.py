@@ -19,7 +19,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from src import models
+from src.users import models
 
 target_metadata = models.Base.metadata
 

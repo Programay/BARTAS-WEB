@@ -1,0 +1,7 @@
+from decouple import config as decouple_config
+
+ACCESS_TOKE_EXPIRE_MINUTES = 30
+REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
+ALGORITHM = "HS256"
+JWT_SECRET_KEY = decouple_config("JWT_SECRET_KEY")
+JWT_REFRESH_SECRET_KEY = decouple_config("JWT_REFRESH_SECRET_KEY")
