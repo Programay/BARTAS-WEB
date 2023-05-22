@@ -19,17 +19,19 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
+# models import are needed for collecting Base metadata
 from src.users import models
+from src.drinks import models
+from src.storage import models
+from src.database import Base
 
-target_metadata = models.Base.metadata
+target_metadata = Base.metadata
 
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
-from decouple import config as config_decouple
 
 
 def run_migrations_offline() -> None:

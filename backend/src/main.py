@@ -6,6 +6,8 @@ from .dependency import has_access
 from .users import models
 from .users.routers import router as users_router
 from .authentications.routers import router as auth_router
+from fastapi.staticfiles import StaticFiles
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -18,11 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Routers
 PROTECTED = [Depends(has_access)]
 
 app.include_router(auth_router)
-app.include_router(users_router, dependencies=PROTECTED)
+app.include_router(users_router)
 
 
 @app.get("/")
