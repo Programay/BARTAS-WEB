@@ -1,6 +1,9 @@
 <template>
+
   <div>
-    <p>Test: {{ msg }}</p>
+  <h1 class="text-3xl font-bold underline">
+    {{ msg.message }} Test
+  </h1>
   </div>
 </template>
 

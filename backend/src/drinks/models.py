@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 
-from . import utils
+from . import constants
 from ..database import Base
 
 
@@ -12,8 +12,8 @@ class Drink(Base):
 
     name = Column(String, unique=True, index=True, nullable=False)
 
-    complicated = Column(Enum(utils.ComplicatedLevels), nullable=False)
-    drink_type = Column(Enum(utils.DrinkTypes), nullable=False)
+    complicated = Column(Enum(constants.ComplicatedLevels), nullable=False)
+    drink_type = Column(Enum(constants.DrinkTypes), nullable=False)
     preparation_description = Column(String, nullable=True)
 
     amount = Column(Integer, nullable=False)

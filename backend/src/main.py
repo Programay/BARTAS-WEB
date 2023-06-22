@@ -31,4 +31,4 @@ app.include_router(users_router)
 
 @app.get("/")
 async def home():
-    return {"message": "Welcome home!"}
+    return {"message": "http://localhost:5000/redoc"}

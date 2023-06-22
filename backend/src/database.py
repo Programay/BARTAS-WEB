@@ -15,11 +15,9 @@ class Base(DeclarativeBase):
     date_modified: Mapped[datetime] = mapped_column(onupdate=func.now())
 
 
-
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-

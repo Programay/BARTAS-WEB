@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Enum, Boolean
 from sqlalchemy.orm import relationship
 
-from . import utils
+from . import constants
 from ..database import Base
 
 
@@ -12,8 +12,8 @@ class IngredientStorage(Base):
 
     name = Column(String, unique=True, index=True, nullable=False)
 
-    ingredient_type = Column(Enum(utils.IngredientTypes), nullable=False)
-    ingredient_unit = Column(Enum(utils.IngredientUnits), nullable=False)
+    ingredient_type = Column(Enum(constants.IngredientTypes), nullable=False)
+    ingredient_unit = Column(Enum(constants.IngredientUnits), nullable=False)
 
     storage_amount = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
