@@ -1,6 +1,8 @@
+from uuid import uuid4
+
 from sqlalchemy import Boolean, Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from uuid import uuid4
+
 from ..database import Base
 
 
@@ -14,6 +16,3 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_staff = Column(Boolean, default=False)
     table = Column(String)
-
-
-

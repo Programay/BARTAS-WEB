@@ -1,9 +1,6 @@
 <template>
-
   <div>
-  <h1 class="text-3xl font-bold underline">
-    {{ props.data?.message }} Test
-  </h1>
+    <h1 class="text-3xl font-bold underline">{{ props.data?.message }} Test</h1>
     <PButton label="Submit" icon="pi pi-user"></PButton>
   </div>
 </template>

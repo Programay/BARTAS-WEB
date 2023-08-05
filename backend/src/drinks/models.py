@@ -1,8 +1,8 @@
-from sqlalchemy import Boolean, Column, Integer, String, Enum, ForeignKey
+from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from . import constants
 from ..database import Base
+from . import constants
 
 
 class Drink(Base):
@@ -22,8 +22,12 @@ class Drink(Base):
     with_alcohol = Column(Boolean, default=True)
     is_possible_to_make = Column(Boolean, default=False)
 
-    ingredients_needed = relationship("IngredientNeeded", back_populates="drink", cascade="all,delete",
-                                      passive_deletes=True)
+    ingredients_needed = relationship(
+        "IngredientNeeded",
+        back_populates="drink",
+        cascade="all,delete",
+        passive_deletes=True,
+    )
 
     # image = Column() # TODO Add image storing
 
@@ -35,7 +39,9 @@ class IngredientNeeded(Base):
 
     drink_id = Column(Integer, ForeignKey("drinks.id"), nullable=False)
     drink = relationship("Drink", back_populates="ingredients_needed")
-    ingredients_storage = relationship("IngredientStorage", back_populates="ingredients_needed")
+    ingredients_storage = relationship(
+        "IngredientStorage", back_populates="ingredients_needed"
+    )
 
     amount_needed = Column(Integer, nullable=False)
 

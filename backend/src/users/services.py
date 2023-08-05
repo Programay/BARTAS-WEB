@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from . import schemas, models
-from . utils import get_hashed_password
+from . import models, schemas
+from .utils import get_hashed_password
 
 
 def get_user_by_id(db: Session, user_id: int):
@@ -19,7 +19,12 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def create_user(db: Session, user: schemas.UserCreate):
     hashed_password = get_hashed_password(user.password)
-    db_user = models.User(username=user.username, password=hashed_password, is_staff=user.is_staff, is_active=user.is_active)
+    db_user = models.User(
+        username=user.username,
+        password=hashed_password,
+        is_staff=user.is_staff,
+        is_active=user.is_active,
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

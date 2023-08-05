@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, Enum, Boolean
+from sqlalchemy import Boolean, Column, Enum, Integer, String
 from sqlalchemy.orm import relationship
 
-from . import constants
 from ..database import Base
+from . import constants
 
 
 class IngredientStorage(Base):
@@ -20,6 +20,8 @@ class IngredientStorage(Base):
     with_alcohol = Column(Boolean, default=True)
     can_be_ordered = Column(Boolean, default=False)
 
-    ingredients_needed = relationship("IngredientNeeded", back_populates="ingredients_storage")
+    ingredients_needed = relationship(
+        "IngredientNeeded", back_populates="ingredients_storage"
+    )
 
     # image = Column() # TODO Add image storing

@@ -6,7 +6,7 @@ import router from './router';
 import PrimeVue from 'primevue/config';
 import Button from 'primevue/button';
 //theme
-import "primevue/resources/themes/bootstrap4-dark-purple/theme.css";
+import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css';
 //CSS
 import './assets/main.css';
 import 'primeicons/primeicons.css';

@@ -3,6 +3,7 @@ import enum
 
 class IngredientTypes(enum.Enum):
     """Possible ingredient types."""
+
     LIQUID = "LIQUID"
     BEER = "BEER"
     FRUIT = "FRUIT"
@@ -13,6 +14,7 @@ class IngredientTypes(enum.Enum):
 
 class IngredientUnits(enum.Enum):
     """Possible ingredient units."""
+
     MILLILITER = "MILLILITER"
     PIECE = "PIECE"
     PACK = "PACK"

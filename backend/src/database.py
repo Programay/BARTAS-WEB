@@ -2,7 +2,7 @@ from datetime import datetime
 
 from decouple import config
 from sqlalchemy import create_engine, func
-from sqlalchemy.orm import sessionmaker, DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 engine = create_engine(
     f"postgresql://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@db:{config('POSTGRES_PORT')}/{config('POSTGRES_DB')}"
