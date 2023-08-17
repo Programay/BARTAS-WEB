@@ -20,4 +20,4 @@ repos:
     rev: v8.47.0
     hooks:
     -   id: eslint
-        exclude: ^frontend/node_modules
+        exclude: ^/node_modules
