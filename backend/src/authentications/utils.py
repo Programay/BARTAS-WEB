@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from typing import Any
 
 from jose import jwt
 
@@ -14,19 +13,33 @@ def create_token(subject: dict, secret: str, expires_delta: int) -> str:
     return encoded_jwt
 
 
-def create_access_token(subject: dict, expires_delta: int = constants.ACCESS_TOKE_EXPIRE_MINUTES) -> str:
-    encoded_jwt = create_token(subject=subject, expires_delta=expires_delta, secret=constants.JWT_SECRET_KEY)
+def create_access_token(
+    subject: dict, expires_delta: int = constants.ACCESS_TOKE_EXPIRE_MINUTES
+) -> str:
+    encoded_jwt = create_token(
+        subject=subject, expires_delta=expires_delta, secret=constants.JWT_SECRET_KEY
+    )
     return encoded_jwt
 
 
-def create_refresh_token(subject: dict, expires_delta: int = constants.REFRESH_TOKEN_EXPIRE_MINUTES) -> str:
-    encoded_jwt = create_token(subject=subject, expires_delta=expires_delta, secret=constants.JWT_REFRESH_SECRET_KEY)
+def create_refresh_token(
+    subject: dict, expires_delta: int = constants.REFRESH_TOKEN_EXPIRE_MINUTES
+) -> str:
+    encoded_jwt = create_token(
+        subject=subject,
+        expires_delta=expires_delta,
+        secret=constants.JWT_REFRESH_SECRET_KEY,
+    )
     return encoded_jwt
 
 
 def is_refresh_token_valid(refresh_token: str) -> tuple[bool, dict]:
     try:
-        jwt_json = jwt.decode(token=refresh_token, key=constants.JWT_REFRESH_SECRET_KEY, algorithms=constants.ALGORITHM)
+        jwt_json = jwt.decode(
+            token=refresh_token,
+            key=constants.JWT_REFRESH_SECRET_KEY,
+            algorithms=constants.ALGORITHM,
+        )
         return False, jwt_json
     except jwt.ExpiredSignatureError:
         return True, {}
