@@ -1,9 +1,25 @@
 <template>
-  <router-view />
+  <div class="app-container py-2">
+    <Header />
+    <router-view class="router-view-body" />
+    <Footer />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 </script>
 
-<style></style>
+<style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.router-view-body {
+  flex: 1;
+}
+</style>

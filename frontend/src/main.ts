@@ -12,6 +12,7 @@ import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
 //CSS
 import './assets/main.css'
 import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
 const app = createApp(App)
 
 axios.defaults.withCredentials = true
@@ -21,6 +22,7 @@ app.use(createPinia())
 app.use(router)
 app.use(PrimeVue)
 
+//Prime-vue components
 app.component('PButton', Button)
 
 app.mount('#app')
