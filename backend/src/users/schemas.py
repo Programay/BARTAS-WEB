@@ -22,3 +22,8 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+# Custom Response types
+class UserCreateResponse(BaseModel):
+    username: str
