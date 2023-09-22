@@ -1,7 +1,7 @@
 <template>
   <div class="app-container py-2">
     <Header />
-    <router-view class="router-view-body" />
+    <router-view class="router-view-body mx-4" />
     <Footer />
   </div>
 </template>
