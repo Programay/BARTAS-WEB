@@ -5,6 +5,8 @@ import App from './App.vue'
 import router from '@/router'
 import PrimeVue from 'primevue/config'
 import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import Message from 'primevue/message'
 
 //theme
 import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
@@ -32,6 +34,8 @@ app.use(PrimeVue)
 
 //Prime-vue components
 app.component('PButton', Button)
+app.component('PInputText', InputText)
+app.component('PMessage', Message)
 
 // app mounting
 app.mount('#app')

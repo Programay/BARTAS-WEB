@@ -1,0 +1,26 @@
+export interface IAuthStore {
+  access_token: string
+  refresh_token: string
+  isLoginModalVisible: boolean
+  isAuthenticated: boolean
+  errors: IAuthErrors
+}
+
+interface IAuthErrors {
+  is_occurred: boolean
+  message: string
+}
+
+export interface IUserLogin {
+  username: string
+  password: string
+}
+
+export interface ILoginResponse {
+  access_token: string
+  refresh_token: string
+}
+
+export interface IRefreshLoginResponse {
+  access_token: string
+}
