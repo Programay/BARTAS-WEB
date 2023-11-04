@@ -1,13 +1,14 @@
 export interface IAuthStore {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  refreshToken: string
   isLoginModalVisible: boolean
+  isLogoutModalVisible: boolean
   isAuthenticated: boolean
   errors: IAuthErrors
 }
 
 interface IAuthErrors {
-  is_occurred: boolean
+  isOccurred: boolean
   message: string
 }
 

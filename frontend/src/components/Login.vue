@@ -18,7 +18,7 @@
       <span class="justify-content-start">
         <PMessage
           class="my-1"
-          v-show="authStore.errors.is_occurred"
+          v-show="authStore.errors.isOccurred"
           severity="error"
           :closable="false"
           >{{ authStore.errors.message }}
@@ -53,7 +53,7 @@ watchEffect(() => {
     user.password = ''
 
     authStore.errors.message = ''
-    authStore.errors.is_occurred = false
+    authStore.errors.isOccurred = false
   }
 })
 </script>

@@ -7,6 +7,9 @@ import PrimeVue from 'primevue/config'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Message from 'primevue/message'
+import Toast from 'primevue/toast'
+import ToastService from 'primevue/toastservice'
+import Image from 'primevue/image'
 
 //theme
 import 'primevue/resources/themes/bootstrap4-dark-purple/theme.css'
@@ -36,6 +39,9 @@ app.use(PrimeVue)
 app.component('PButton', Button)
 app.component('PInputText', InputText)
 app.component('PMessage', Message)
+app.component('PToast', Toast)
+app.component('PImage', Image)
+app.use(ToastService)
 
 // app mounting
 app.mount('#app')

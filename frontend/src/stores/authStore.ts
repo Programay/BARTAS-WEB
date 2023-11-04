@@ -7,11 +7,12 @@ import router from '@/router'
 
 export const useAuthStore = defineStore('auth', {
   state: (): IAuthStore => ({
-    access_token: JSON.parse(localStorage.getItem('access_token')) || '',
-    refresh_token: JSON.parse(localStorage.getItem('refresh_token')) || '',
+    accessToken: JSON.parse(localStorage.getItem('access_token')) || '',
+    refreshToken: JSON.parse(localStorage.getItem('refresh_token')) || '',
     isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated')) || false,
     isLoginModalVisible: false,
-    errors: { is_occurred: false, message: '' }
+    isLogoutModalVisible: false,
+    errors: { isOccurred: false, message: '' }
   }),
 
   actions: {
@@ -21,25 +22,25 @@ export const useAuthStore = defineStore('auth', {
         .post(LOGIN_ENDPOINT, loginData)
         .then((res) => {
           const data: ILoginResponse = res.data
-          this.access_token = data.access_token
-          this.refresh_token = data.refresh_token
+          this.accessToken = data.access_token
+          this.refreshToken = data.refresh_token
           this.isAuthenticated = true
-          localStorage.setItem('access_token', JSON.stringify(this.access_token))
-          localStorage.setItem('refresh_token', JSON.stringify(this.refresh_token))
+          localStorage.setItem('accessToken', JSON.stringify(this.accessToken))
+          localStorage.setItem('refreshToken', JSON.stringify(this.refreshToken))
           localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
-          this.errors.is_occurred = false
+          this.errors.isOccurred = false
           this.errors.message = ''
           this.isLoginModalVisible = false
           router.push('/')
         })
         .catch((e) => {
           const detail = e.response.data.detail
-          this.errors.is_occurred = true
+          this.errors.isOccurred = true
           this.errors.message = detail
         })
     },
     refreshToken() {
-      if (!this.refresh_token) {
+      if (!this.refreshToken) {
         this.logout()
         return
       }
@@ -47,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
         .post(REFRESH_LOGIN_ENDPOINT, { refresh_token: this.refreshToken })
         .then((res) => {
           const data: IRefreshLoginResponse = res.data
-          this.access_token = data.access_token
+          this.accessToken = data.access_token
           this.isAuthenticated = true
         })
         .catch((e) => {
@@ -61,13 +62,14 @@ export const useAuthStore = defineStore('auth', {
     },
     logout() {
       // TODO logout on BE needed
-      this.access_token = ''
-      this.refresh_token = ''
+      this.accessToken = ''
+      this.refreshToken = ''
       this.isAuthenticated = false
-      localStorage.removeItem('access_token', JSON.stringify(this.access_token))
-      localStorage.removeItem('refresh_token', JSON.stringify(this.refresh_token))
+      localStorage.removeItem('accessToken', JSON.stringify(this.accessToken))
+      localStorage.removeItem('refreshToken', JSON.stringify(this.refreshToken))
       localStorage.removeItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
       router.push('/')
+      this.isLogoutModalVisible = true
     }
   }
 })

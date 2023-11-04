@@ -17,7 +17,7 @@ const showLoginModal = () => {
 }
 
 const menuItems = computed(() => {
-  const baseItems: MenuItem[] = [
+  const unauthenticatedUserMenuItems: MenuItem[] = [
     {
       label: 'Home',
       icon: 'pi pi-fw pi-home',
@@ -27,25 +27,41 @@ const menuItems = computed(() => {
       label: 'About',
       icon: 'pi pi-fw  pi-info-circle',
       to: '/about'
+    },
+    {
+      label: 'Login',
+      icon: 'pi pi-fw  pi-user',
+      command: showLoginModal
     }
   ]
-  const loginItem = {
-    label: 'Login',
-    icon: 'pi pi-fw  pi-user',
-    command: showLoginModal
-  }
-  const logoutItem = {
-    label: 'Logout',
-    icon: 'pi pi-fw  pi-user',
-    command: handleLogout
+  if (!authStore.isAuthenticated) {
+    return unauthenticatedUserMenuItems
   }
 
-  if (authStore.isAuthenticated) {
-    baseItems.push(logoutItem)
-  } else {
-    baseItems.push(loginItem)
-  }
-  return baseItems
+  const authenticatedUserItems: MenuItem[] = [
+    {
+      label: 'Home',
+      icon: 'pi pi-fw pi-home',
+      to: '/'
+    },
+    {
+      label: 'Sample1',
+      icon: 'pi pi-fw pi-home',
+      to: '/'
+    },
+    {
+      label: 'Sample2',
+      icon: 'pi pi-fw pi-home',
+      to: '/'
+    },
+    {
+      label: 'Logout',
+      icon: 'pi pi-fw  pi-user',
+      command: handleLogout
+    }
+  ]
+
+  return authenticatedUserItems
 })
 </script>
 <style scoped></style>

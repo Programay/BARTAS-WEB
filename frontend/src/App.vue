@@ -1,7 +1,9 @@
 <template>
   <div class="app-container py-2">
     <Header />
+    <Toast />
     <Login />
+    <Logout />
     <router-view class="router-view-body mx-4" />
     <Footer />
   </div>
@@ -12,6 +14,8 @@ import { RouterView } from 'vue-router'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import Login from '@/components/Login.vue'
+import Logout from '@/components/Logout.vue'
+import Toast from '@/components/Toast.vue'
 </script>
 
 <style scoped>
