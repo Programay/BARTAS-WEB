@@ -41,13 +41,15 @@ export const useAuthStore = defineStore('auth', {
           }
         })
     },
-    cleanError() {
-      this.errors.message = ''
-      this.errors.isOccurred = false
-    },
-    setError(errorMessage: string) {
-      this.errors.message = errorMessage
-      this.errors.isOccurred = true
+    logout() {
+      this.accessToken = ''
+      this.refreshToken = ''
+      this.isAuthenticated = false
+      localStorage.removeItem('accessToken', JSON.stringify(this.accessToken))
+      localStorage.removeItem('refreshToken', JSON.stringify(this.refreshToken))
+      localStorage.removeItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
+      router.push('/')
+      this.isLogoutModalVisible = true
     },
     refreshToken() {
       if (!this.refreshToken) {
@@ -76,15 +78,13 @@ export const useAuthStore = defineStore('auth', {
         this.isLoginModalVisible = true
       }
     },
-    logout() {
-      this.accessToken = ''
-      this.refreshToken = ''
-      this.isAuthenticated = false
-      localStorage.removeItem('accessToken', JSON.stringify(this.accessToken))
-      localStorage.removeItem('refreshToken', JSON.stringify(this.refreshToken))
-      localStorage.removeItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
-      router.push('/')
-      this.isLogoutModalVisible = true
+    cleanError() {
+      this.errors.message = ''
+      this.errors.isOccurred = false
+    },
+    setError(errorMessage: string) {
+      this.errors.message = errorMessage
+      this.errors.isOccurred = true
     }
   }
 })
