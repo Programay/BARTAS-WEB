@@ -16,6 +16,7 @@ watch(() => {
       summary: 'Authentication Error',
       detail: authStore.errors.message
     })
+    authStore.cleanError()
   }
 })
 </script>

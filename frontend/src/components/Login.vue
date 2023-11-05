@@ -51,9 +51,7 @@ watchEffect(() => {
   if (!modalState) {
     user.username = ''
     user.password = ''
-
-    authStore.errors.message = ''
-    authStore.errors.isOccurred = false
+    authStore.cleanError()
   }
 })
 </script>

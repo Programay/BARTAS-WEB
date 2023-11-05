@@ -24,14 +24,12 @@ api.interceptors.response.use(
       if (error.response.status === 401) {
         authStore.refreshToken()
       } else {
-        authStore.errors.isOccurred = true
-        authStore.errors.message =
-          'Your token expire or some other errors occurred. Please Login again'
+        const errorMessage = 'Your token expire or some other errors occurred. Please Login again'
+        authStore.setError(errorMessage)
       }
-      // Other error
     } else {
-      authStore.errors.isOccurred = true
-      authStore.errors.message = "We can't log you in. Please contact with us."
+      const errorMessage = "We can't log you in. Please contact with us."
+      authStore.setError(errorMessage)
     }
     return Promise.reject(error)
   }

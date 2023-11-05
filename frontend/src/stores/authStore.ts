@@ -28,16 +28,22 @@ export const useAuthStore = defineStore('auth', {
           localStorage.setItem('accessToken', JSON.stringify(this.accessToken))
           localStorage.setItem('refreshToken', JSON.stringify(this.refreshToken))
           localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
-          this.errors.isOccurred = false
-          this.errors.message = ''
+          this.cleanError()
           this.isLoginModalVisible = false
           router.push('/')
         })
         .catch((e) => {
           const detail = e.response.data.detail
-          this.errors.isOccurred = true
-          this.errors.message = detail
+          this.setError(detail)
         })
+    },
+    cleanError() {
+      this.errors.message = ''
+      this.errors.isOccurred = false
+    },
+    setError(errorMessage: string) {
+      this.errors.message = errorMessage
+      this.errors.isOccurred = true
     },
     refreshToken() {
       if (!this.refreshToken) {
