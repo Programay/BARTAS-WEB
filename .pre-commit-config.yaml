@@ -17,7 +17,7 @@ repos:
         types: [ file ]
         types_or: [ ts, tsx, vue ]
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.34.0
+    rev: v8.47.0
     hooks:
     -   id: eslint
-        exclude: ^frontend/node_modules
+        exclude: ^node_modules/

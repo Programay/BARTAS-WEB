@@ -12,7 +12,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 class Base(DeclarativeBase):
     date_creation: Mapped[datetime] = mapped_column(server_default=func.now())
-    date_modified: Mapped[datetime] = mapped_column(onupdate=func.now())
+    date_modified: Mapped[datetime] = mapped_column(onupdate=func.now(), nullable=True)
 
 
 def get_db():

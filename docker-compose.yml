@@ -31,6 +31,5 @@ services:
       - "${FE_PORT}:${FE_PORT}"
     volumes:
       - './frontend:/frontend'
-      - '/frontend/node_modules'
 volumes:
   postgres_data:
