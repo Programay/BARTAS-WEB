@@ -33,8 +33,12 @@ export const useAuthStore = defineStore('auth', {
           router.push('/')
         })
         .catch((e) => {
-          const detail = e.response.data.detail
-          this.setError(detail)
+          if (error.response.status === 401) {
+            this.setError('Username or password are incorrect.')
+          } else {
+            console.log(error)
+            this.setError("We couldn't authorize you") // TODO better message
+          }
         })
     },
     cleanError() {
@@ -57,9 +61,15 @@ export const useAuthStore = defineStore('auth', {
           this.accessToken = data.access_token
           this.isAuthenticated = true
         })
-        .catch((e) => {
-          console.log(e)
-        }) // TODO logout on token expire
+        .catch((error) => {
+          if (error.response.status === 401) {
+            this.setError('Your token expire. Please login.')
+          } else {
+            console.log(error)
+            this.setError("We couldn't authorize you") // TODO better message
+          }
+          this.logout()
+        })
     },
     showLoginModal() {
       if (!this.isLoginModalVisible && !this.isAuthenticated) {
@@ -67,7 +77,6 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     logout() {
-      // TODO logout on BE needed
       this.accessToken = ''
       this.refreshToken = ''
       this.isAuthenticated = false
