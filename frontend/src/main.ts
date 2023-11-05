@@ -3,12 +3,13 @@ import { createPinia } from 'pinia'
 import axios from 'axios'
 import App from './App.vue'
 import router from '@/router'
+
 import PrimeVue from 'primevue/config'
+import ToastService from 'primevue/toastservice'
+
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
-import Message from 'primevue/message'
 import Toast from 'primevue/toast'
-import ToastService from 'primevue/toastservice'
 import Image from 'primevue/image'
 
 //theme
@@ -32,15 +33,16 @@ app.use(createPinia())
 // Initialize vue router
 app.use(router)
 
-// Initialize prime-vue
+// Initialize Prime-vue
 app.use(PrimeVue)
 
-//Prime-vue components
+// Prime-vue components
 app.component('PButton', Button)
 app.component('PInputText', InputText)
-app.component('PMessage', Message)
 app.component('PToast', Toast)
 app.component('PImage', Image)
+
+// Prime-vue services
 app.use(ToastService)
 
 // app mounting
