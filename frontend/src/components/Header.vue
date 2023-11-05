@@ -1,5 +1,5 @@
 <template>
-  <Menubar :model="menuItems" class="bg-purple-800 sticky top-0 z-1" />
+  <Menubar :model="menuItems" class="sticky top-0 z-1 header-footer" />
 </template>
 <script setup lang="ts">
 import Menubar from 'primevue/menubar'
