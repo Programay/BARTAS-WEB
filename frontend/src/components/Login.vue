@@ -15,15 +15,6 @@
         <PInputText class="w-full" id="password" type="password" v-model="user.password" />
         <label for="password">Password</label>
       </span>
-      <span class="justify-content-start">
-        <PMessage
-          class="my-1"
-          v-show="authStore.errors.isOccurred"
-          severity="error"
-          :closable="false"
-          >{{ authStore.errors.message }}
-        </PMessage>
-      </span>
       <PButton class="w-full" label="Login" type="submit" rounded />
     </form>
   </Dialog>
