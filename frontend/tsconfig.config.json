@@ -1,5 +1,8 @@
 {
-  "extends": ["@vue/tsconfig/tsconfig.node.json", "node_modules"],
+  "extends": [
+    "@vue/tsconfig/tsconfig.node.json",
+    "node_modules"
+  ],
   "include": [
     "vite.config.*",
     "vitest.config.*",
@@ -13,6 +16,7 @@
   ],
   "compilerOptions": {
     "composite": true,
+    "resolveJsonModule": true,
     "types": [
       "vite/client"
     ]
