@@ -1,0 +1,23 @@
+{
+  "general": {
+    "auth": {
+      "username": "username",
+      "password": "password",
+      "messages": {
+      "logoutMessage": "You get successfully logout.",
+      "incorrectUsernameOrPassword": "Username or password are incorrect.",
+      "authenticationProblem": "We couldn't authorize you.",
+      "tokenExpire": "Your token expire. Please login.",
+      "loginTechnicalProblems": "YWe can't log you in. Please contact with us."
+      }
+    }
+  },
+  "profile": {
+    "title": "User Profile",
+    "language": "Application language"
+  },
+  "aboutPage": {
+    "title": "About Bartender Assistant",
+    "summary": "Barman's support system is a web application which helps to organise and fasten taking orders at a bar. There are two types of accounts in the system : Clients account, and the bars employee account. The system works locally, within a bars wi-fi range. There Client will get a login and password, which are active for 16 hours since generating them. This data will be given to the Client by the bars employee at the barman's stand. The users will log into a web application through a browser which is suited for desktop and mobile usage. This system can be used to order a variety of items available at a bar: various beers, snacks, shots, multi-shots, alcoholic and non-alcoholic drinks. The client will also be able to access their order list and order history. Orders will be taken by the bars employee through the same system, it will also be used to complete or actualise the orders status and deliver to the table chosen by the customer after logging in. The Client will pay for their order while receiving ordered items from the bars employee."
+  }
+}

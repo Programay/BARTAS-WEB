@@ -3,10 +3,10 @@
     v-model:visible="authStore.isLogoutModalVisible"
     modal
     header="Logout"
-    class="w-3"
+    class="lg:w-3"
     :draggable="false"
   >
-    <p>You are logout</p>
+    <p>{{ $t('general.auth.messages.logoutMessage') }}</p>
   </Dialog>
 </template>
 

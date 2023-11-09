@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/authStore'
-import { REFRESH_LOGIN_ENDPOINT } from '@/stores/api/authAPI'
-import type { IRefreshLoginResponse } from '@/types/authTypes'
+import i18n from '@/vueI18n'
 
 const authStore = useAuthStore()
 
@@ -24,12 +23,10 @@ api.interceptors.response.use(
       if (error.response.status === 401) {
         authStore.refreshToken()
       } else {
-        const errorMessage = 'Your token expire or some other errors occurred. Please Login again'
-        authStore.setError(errorMessage)
+        authStore.setError(i18n.global.t('general.auth.messages.tokenExpire'))
       }
     } else {
-      const errorMessage = "We can't log you in. Please contact with us."
-      authStore.setError(errorMessage)
+      authStore.setError(i18n.global.t('general.auth.messages.loginTechnicalProblems'))
     }
     return Promise.reject(error)
   }

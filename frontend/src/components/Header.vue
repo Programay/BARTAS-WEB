@@ -50,13 +50,18 @@ const menuItems = computed(() => {
       to: '/'
     },
     {
-      label: 'Sample2',
-      icon: 'pi pi-fw pi-home',
-      to: '/'
+      label: 'Profile', // TODO Translate for labels
+      icon: 'pi pi-fw pi-user',
+      to: '/profile'
+    },
+    {
+      label: 'About',
+      icon: 'pi pi-fw  pi-info-circle',
+      to: '/about'
     },
     {
       label: 'Logout',
-      icon: 'pi pi-fw  pi-user',
+      icon: 'pi pi-fw  pi-power-off',
       command: handleLogout
     }
   ]
