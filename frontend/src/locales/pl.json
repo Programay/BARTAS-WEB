@@ -1,10 +1,30 @@
 {
-  "profile": {
-    "title": "Profil Użytkownika",
-    "language": "Język aplikacji"
-  },
   "aboutPage": {
-    "title": "O systemie Bartender Assistant",
-    "summary": "System wspomagania barmana to aplikacja webowa pomagająca zorganizować oraz przyśpieszyć składanie zamówień w barach. W systemie będziemy rozróżniać dwa rodzaje kont użytkowników Klient oraz Pracownik Baru. System będzie działał lokalnie w obrębie sieci baru. Klientowi zostanie przedzielony jednorazowy login i hasło ważny 16h od wygenerowania, dane te klient będzie w stanie otrzymać od pracownika baru, który znajduje się przy stanowisku barmańskim. Użytkownicy będą logować się do aplikacji webowej poprzez przeglądarkę internetową przystosowaną na komputery osobiste jak i telefony komórkowe. Poprzez system klient będzie mógł zamawiać dostępne w barze towary takie jak przekąski, różnego rodzaju piwa, shoty, multi-shoty, drinki alkoholowe jak i bezalkoholowe. Klient będzie miał też dostęp do listy swoich aktualnych zamówień wraz z ich statusem oraz historii zamówień. Zamówienia będzie przyjmował pracownik baru za pomocą tego samego systemu kompletował bądź przygotowywał, aktualizował status zamówień oraz dostarczał do stolika, który Klient wybierze po zalogowaniu. Klient będzie płacił za swoje zamówienie podczas odbierania zamówienia od pracownika."
+    "summary": "System wspomagania barmana to aplikacja webowa pomagająca zorganizować oraz przyśpieszyć składanie zamówień w barach. W systemie będziemy rozróżniać dwa rodzaje kont użytkowników Klient oraz Pracownik Baru. System będzie działał lokalnie w obrębie sieci baru. Klientowi zostanie przedzielony jednorazowy login i hasło ważny 16h od wygenerowania, dane te klient będzie w stanie otrzymać od pracownika baru, który znajduje się przy stanowisku barmańskim. Użytkownicy będą logować się do aplikacji webowej poprzez przeglądarkę internetową przystosowaną na komputery osobiste jak i telefony komórkowe. Poprzez system klient będzie mógł zamawiać dostępne w barze towary takie jak przekąski, różnego rodzaju piwa, shoty, multi-shoty, drinki alkoholowe jak i bezalkoholowe. Klient będzie miał też dostęp do listy swoich aktualnych zamówień wraz z ich statusem oraz historii zamówień. Zamówienia będzie przyjmował pracownik baru za pomocą tego samego systemu kompletował bądź przygotowywał, aktualizował status zamówień oraz dostarczał do stolika, który Klient wybierze po zalogowaniu. Klient będzie płacił za swoje zamówienie podczas odbierania zamówienia od pracownika.",
+    "title": "O systemie Bartender Assistant"
+  },
+  "general": {
+    "auth": {
+      "messages": {
+        "authenticationProblem": "Problem z autoryzacją.",
+        "incorrectUsernameOrPassword": "Nazwa użytkownika lub hasło są niepoprawne.",
+        "loginTechnicalProblems": "Nie mogliśmy cię zalogować. Proszę skontaktuj się z nami w tej sprawie.",
+        "logoutMessage": "Zostałeś wylogowany.",
+        "tokenExpire": "Twój token wygasł. Spróbuj zalogować się ponownie."
+      },
+      "password": "Hasło",
+      "username": "Nazwa użytkownika"
+    },
+    "menubar": {
+      "about": "O aplikacji",
+      "home": "Strona główna",
+      "login": "Zaloguj",
+      "logout": "Wyloguj",
+      "profile": "Profil"
+    }
+  },
+  "profile": {
+    "language": "Język aplikacji",
+    "title": "Profil Użytkownika"
   }
 }

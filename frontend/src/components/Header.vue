@@ -6,7 +6,7 @@ import Menubar from 'primevue/menubar'
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import type { MenuItem } from 'primevue/menuitem'
-
+import i18n from '@/vueI18n'
 const authStore = useAuthStore()
 
 const handleLogout = () => {
@@ -16,54 +16,49 @@ const showLoginModal = () => {
   authStore.showLoginModal()
 }
 
+const routerMenuItems = {
+  home: {
+    label: i18n.global.t('general.menubar.home'),
+    icon: 'pi pi-fw pi-home',
+    to: '/'
+  },
+  about: {
+    label: i18n.global.t('general.menubar.about'),
+    icon: 'pi pi-fw  pi-info-circle',
+    to: '/about'
+  },
+  login: {
+    label: i18n.global.t('general.menubar.login'),
+    icon: 'pi pi-fw  pi-user',
+    command: showLoginModal
+  },
+  logout: {
+    label: i18n.global.t('general.menubar.logout'),
+    icon: 'pi pi-fw  pi-power-off',
+    command: handleLogout
+  },
+  profile: {
+    label: i18n.global.t('general.menubar.profile'),
+    icon: 'pi pi-fw pi-user',
+    to: '/profile'
+  }
+}
+
 const menuItems = computed(() => {
   const unauthenticatedUserMenuItems: MenuItem[] = [
-    {
-      label: 'Home',
-      icon: 'pi pi-fw pi-home',
-      to: '/'
-    },
-    {
-      label: 'About',
-      icon: 'pi pi-fw  pi-info-circle',
-      to: '/about'
-    },
-    {
-      label: 'Login',
-      icon: 'pi pi-fw  pi-user',
-      command: showLoginModal
-    }
+    routerMenuItems.home,
+    routerMenuItems.about,
+    routerMenuItems.login
   ]
   if (!authStore.isAuthenticated) {
     return unauthenticatedUserMenuItems
   }
 
   const authenticatedUserItems: MenuItem[] = [
-    {
-      label: 'Home',
-      icon: 'pi pi-fw pi-home',
-      to: '/'
-    },
-    {
-      label: 'Sample1',
-      icon: 'pi pi-fw pi-home',
-      to: '/'
-    },
-    {
-      label: 'Profile', // TODO Translate for labels
-      icon: 'pi pi-fw pi-user',
-      to: '/profile'
-    },
-    {
-      label: 'About',
-      icon: 'pi pi-fw  pi-info-circle',
-      to: '/about'
-    },
-    {
-      label: 'Logout',
-      icon: 'pi pi-fw  pi-power-off',
-      command: handleLogout
-    }
+    routerMenuItems.home,
+    routerMenuItems.profile,
+    routerMenuItems.about,
+    routerMenuItems.logout
   ]
 
   return authenticatedUserItems
