@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch } from 'vue'
 import { useBaseStore } from '@/stores/baseStore'
 import i18n from '@/vueI18n'
