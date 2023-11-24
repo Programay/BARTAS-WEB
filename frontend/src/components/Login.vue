@@ -3,17 +3,17 @@
     v-model:visible="authStore.isLoginModalVisible"
     modal
     header="Login"
-    class="w-3"
+    class="lg:w-3"
     :draggable="false"
   >
     <form @submit.prevent="loginSubmit()">
       <span class="p-float-label mt-4">
         <PInputText class="w-full" id="username" v-model="user.username" />
-        <label for="username">Username</label>
+        <label for="username">{{ $t('general.auth.username') }}</label>
       </span>
       <span class="p-float-label my-4">
         <PInputText class="w-full" id="password" type="password" v-model="user.password" />
-        <label for="password">Password</label>
+        <label for="password">{{ $t('general.auth.password') }}</label>
       </span>
       <PButton class="w-full" label="Login" type="submit" rounded />
     </form>

@@ -4,12 +4,13 @@ import axios from 'axios'
 import type { ILoginResponse, IUserLogin } from '@/types/authTypes'
 import { IAuthStore, IRefreshLoginResponse } from '@/types/authTypes'
 import router from '@/router'
+import i18n from '@/vueI18n'
 
 export const useAuthStore = defineStore('auth', {
   state: (): IAuthStore => ({
-    accessToken: JSON.parse(localStorage.getItem('access_token')) || '',
-    refreshToken: JSON.parse(localStorage.getItem('refresh_token')) || '',
-    isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated')) || false,
+    accessToken: '',
+    refreshToken: '',
+    isAuthenticated: false,
     isLoginModalVisible: false,
     isLogoutModalVisible: false,
     errors: { isOccurred: false, message: '' }
@@ -25,19 +26,16 @@ export const useAuthStore = defineStore('auth', {
           this.accessToken = data.access_token
           this.refreshToken = data.refresh_token
           this.isAuthenticated = true
-          localStorage.setItem('accessToken', JSON.stringify(this.accessToken))
-          localStorage.setItem('refreshToken', JSON.stringify(this.refreshToken))
-          localStorage.setItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
           this.cleanError()
           this.isLoginModalVisible = false
           router.push('/')
         })
-        .catch((e) => {
-          if (error.response.status === 401) {
-            this.setError('Username or password are incorrect.')
+        .catch((error) => {
+          if (error.response.status === 400) {
+            this.setError(i18n.global.t('general.auth.messages.incorrectUsernameOrPassword'))
           } else {
             console.log(error)
-            this.setError("We couldn't authorize you") // TODO better message
+            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
           }
         })
     },
@@ -45,9 +43,6 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = ''
       this.refreshToken = ''
       this.isAuthenticated = false
-      localStorage.removeItem('accessToken', JSON.stringify(this.accessToken))
-      localStorage.removeItem('refreshToken', JSON.stringify(this.refreshToken))
-      localStorage.removeItem('isAuthenticated', JSON.stringify(this.isAuthenticated))
       router.push('/')
       this.isLogoutModalVisible = true
     },
@@ -64,11 +59,11 @@ export const useAuthStore = defineStore('auth', {
           this.isAuthenticated = true
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            this.setError('Your token expire. Please login.')
+          if (error.response.status === 400) {
+            this.setError(i18n.global.t('general.auth.messages.tokenExpire'))
           } else {
             console.log(error)
-            this.setError("We couldn't authorize you") // TODO better message
+            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
           }
           this.logout()
         })
@@ -86,5 +81,6 @@ export const useAuthStore = defineStore('auth', {
       this.errors.message = errorMessage
       this.errors.isOccurred = true
     }
-  }
+  },
+  persist: true
 })

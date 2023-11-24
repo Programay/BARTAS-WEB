@@ -1,21 +1,14 @@
 <template>
-  <div>
-    <h2 class="text-center">Bartender Assistant</h2>
-    <PImage :src="getImageUrl('bar.jpg')" image-class="full-width" />
+  <div class="flex justify-content-center">
+    <div class="w-10">
+      <h1 class="text-center">Bartender Assistant</h1>
+      <PImage :src="getImageUrl('bar_crop.jpg')" image-class="w-12" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const getImageUrl: string = (imageName: string) => {
-  return `/images/${imageName}`
-}
+import { getImageUrl } from '@/utils/static'
 </script>
 
-<style>
-.full-width {
-  width: 85vw;
-  display: block;
-  margin: auto;
-  padding: 10px;
-}
-</style>
+<style></style>
