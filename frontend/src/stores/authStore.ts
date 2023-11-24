@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
             this.setError(i18n.global.t('general.auth.messages.incorrectUsernameOrPassword'))
           } else {
             console.log(error)
-            this.setError(i18n.global.t('general.auth.messages.authenticationProblem')) // TODO better message
+            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
           }
         })
     },
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('auth', {
             this.setError(i18n.global.t('general.auth.messages.tokenExpire'))
           } else {
             console.log(error)
-            this.setError(i18n.global.t('general.auth.messages.authenticationProblem')) // TODO better message
+            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
           }
           this.logout()
         })
