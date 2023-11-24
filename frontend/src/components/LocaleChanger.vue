@@ -3,7 +3,6 @@
     <PDropdown
       v-model="i18n.global.locale.value"
       :options="i18n.global.availableLocales"
-      placeholder="Choose lang"
       class="w-full md:w-14rem"
     />
   </div>
