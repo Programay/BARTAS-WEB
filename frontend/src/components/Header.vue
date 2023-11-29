@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import type { MenuItem } from 'primevue/menuitem'
 import i18n from '@/vueI18n'
+import router from '@/router'
 const authStore = useAuthStore()
 
 const handleLogout = () => {
@@ -20,12 +21,12 @@ const routerMenuItems = {
   home: {
     label: i18n.global.t('general.menubar.home'),
     icon: 'pi pi-fw pi-home',
-    to: '/'
+    command: () => router.push('/')
   },
   about: {
     label: i18n.global.t('general.menubar.about'),
     icon: 'pi pi-fw  pi-info-circle',
-    to: '/about'
+    command: () => router.push('/about')
   },
   login: {
     label: i18n.global.t('general.menubar.login'),
@@ -40,7 +41,7 @@ const routerMenuItems = {
   profile: {
     label: i18n.global.t('general.menubar.profile'),
     icon: 'pi pi-fw pi-user',
-    to: '/profile'
+    command: () => router.push('/profile')
   }
 }
 
