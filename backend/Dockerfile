@@ -1,4 +1,5 @@
-FROM python:3.12.0-alpine
+FROM python:3.11.6-alpine
+
 
 RUN mkdir backend
 WORKDIR /backend
