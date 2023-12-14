@@ -22,6 +22,9 @@ class Drink(Base):
     with_alcohol = Column(Boolean, default=True)
     is_possible_to_make = Column(Boolean, default=False)
 
+    # Relations
+    bar_orders = relationship("BarOrder", back_populates="drink")
+
     ingredients_needed = relationship(
         "IngredientNeeded",
         back_populates="drink",
@@ -29,20 +32,21 @@ class Drink(Base):
         passive_deletes=True,
     )
 
-    # image = Column() # TODO Add image storing
+    image_path = Column(String, nullable=True)
 
 
 class IngredientNeeded(Base):
-    __tablename__ = "ingredient_needed"
+    __tablename__ = "ingredients_needed"
 
     id = Column(Integer, primary_key=True, index=True)
+    amount_needed = Column(Integer, nullable=False)
+    is_enough_to_make_a_drink = Column(Boolean, default=False)
 
+    # Relations
     drink_id = Column(Integer, ForeignKey("drinks.id"), nullable=False)
     drink = relationship("Drink", back_populates="ingredients_needed")
-    ingredients_storage = relationship(
+
+    ingredient_storage_id = Column(Integer, ForeignKey("ingredients_storage.id"))
+    ingredient_storage = relationship(
         "IngredientStorage", back_populates="ingredients_needed"
     )
-
-    amount_needed = Column(Integer, nullable=False)
-
-    is_enough_to_make_a_drink = Column(Boolean, default=False)

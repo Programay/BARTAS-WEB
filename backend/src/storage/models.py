@@ -6,7 +6,7 @@ from . import constants
 
 
 class IngredientStorage(Base):
-    __tablename__ = "ingredient_storage"
+    __tablename__ = "ingredients_storage"
 
     id = Column(Integer, primary_key=True, index=True)
 
@@ -20,8 +20,10 @@ class IngredientStorage(Base):
     with_alcohol = Column(Boolean, default=True)
     can_be_ordered = Column(Boolean, default=False)
 
+    # Relations
+    bar_orders = relationship("BarOrder", back_populates="storage_order")
     ingredients_needed = relationship(
         "IngredientNeeded", back_populates="ingredients_storage"
     )
 
-    # image = Column() # TODO Add image storing
+    image_path = Column(String, nullable=True)

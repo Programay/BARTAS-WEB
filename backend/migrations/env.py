@@ -17,13 +17,13 @@ config.set_main_option(
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from src.database import Base
-from src.drinks import models
-from src.storage import models
-
 # add your model's MetaData object here
 # for 'autogenerate' support
 # models import are needed for collecting Base metadata
+from src.database import Base
+from src.drinks import models
+from src.orders import models
+from src.storage import models
 from src.users import models
 
 target_metadata = Base.metadata
