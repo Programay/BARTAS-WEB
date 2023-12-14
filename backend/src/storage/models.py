@@ -26,4 +26,4 @@ class IngredientStorage(Base):
         "IngredientNeeded", back_populates="ingredients_storage"
     )
 
-    # image = Column() # TODO Add image storing
+    image_path = Column(String, nullable=True)

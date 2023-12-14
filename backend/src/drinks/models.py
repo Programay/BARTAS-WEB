@@ -32,7 +32,7 @@ class Drink(Base):
         passive_deletes=True,
     )
 
-    # image = Column() # TODO Add image storing
+    image_path = Column(String, nullable=True)
 
 
 class IngredientNeeded(Base):
