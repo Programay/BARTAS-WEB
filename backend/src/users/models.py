@@ -1,8 +1,9 @@
+from typing import Optional
 from uuid import uuid4
 
 from sqlalchemy import Boolean, Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 from ..database import Base
 
@@ -10,13 +11,14 @@ from ..database import Base
 class User(Base):
     __tablename__ = "users"
 
-    uuid = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid4)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    password = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True)
-    is_staff = Column(Boolean, default=False)
-    table = Column(String)
-
-    # Relations
-    bar_orders = relationship("BarOrder", back_populates="user")
+    uuid: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, index=True, default=uuid4
+    )
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
+    email: Mapped[Optional[str]] = mapped_column(
+        String, unique=True, index=True, nullable=True
+    )
+    password: Mapped[str] = mapped_column(String, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_staff: Mapped[bool] = mapped_column(Boolean, default=False)
+    table: Mapped[Optional[str]]

@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -23,9 +25,9 @@ async def read_user(username: str, db: Session = Depends(get_db)) -> schemas.Use
     return db_user
 
 
-@router.get("/id/{user_id}")
-async def read_user(user_id: int, db: Session = Depends(get_db)) -> schemas.User:
-    db_user = services.get_user_by_id(db, user_id=user_id)
+@router.get("/id/{user_uuid}")
+async def read_user(user_uuid: UUID, db: Session = Depends(get_db)) -> schemas.User:
+    db_user = services.get_user_by_id(db, user_uuid=user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
@@ -40,3 +42,14 @@ async def create_user(
         raise HTTPException(status_code=400, detail="Account already exist.")
     db_user = services.create_user(db=db, user=user)
     return schemas.UserCreateResponse(username=db_user.username)
+
+
+@router.put("/{user_uuid}")
+async def update_user(
+    user_uuid: UUID, user_data: schemas.UserUpdate, db: Session = Depends(get_db)
+) -> schemas.User:
+    db_user = services.get_user_by_id(db, user_uuid=user_uuid)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found.")
+    db_user = services.update_user(db=db, user_data=user_data, db_user=db_user)
+    return db_user
