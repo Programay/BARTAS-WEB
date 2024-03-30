@@ -25,6 +25,7 @@
   },
   "profile": {
     "language": "Application language",
-    "title": "User Profile"
+    "title": "User Profile",
+    "username": "Username"
   }
 }

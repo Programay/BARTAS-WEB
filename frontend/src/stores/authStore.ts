@@ -4,10 +4,11 @@ import axios from 'axios'
 import type { ILoginResponse, IUserLogin } from '@/types/authTypes'
 import { IAuthStore, IRefreshLoginResponse } from '@/types/authTypes'
 import router from '@/router'
-import i18n from '@/vueI18n'
+import { handleLoginFailure, handleRefreshTokenFailure } from '@/stores/api/errorHandlers'
 
 export const useAuthStore = defineStore('auth', {
   state: (): IAuthStore => ({
+    username: '',
     accessToken: '',
     refreshToken: '',
     isAuthenticated: false,
@@ -17,27 +18,16 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async login(username, password) {
-      const loginData: IUserLogin = { username: username, password: password }
-      axios
-        .post(LOGIN_ENDPOINT, loginData)
-        .then((res) => {
-          const data: ILoginResponse = res.data
-          this.accessToken = data.access_token
-          this.refreshToken = data.refresh_token
-          this.isAuthenticated = true
-          this.cleanError()
-          this.isLoginModalVisible = false
-          router.push('/')
-        })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.setError(i18n.global.t('general.auth.messages.incorrectUsernameOrPassword'))
-          } else {
-            console.log(error)
-            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
-          }
-        })
+    async login(cridentials: IUserLogin) {
+      try {
+        const response = await axios.post<ILoginResponse>(LOGIN_ENDPOINT, cridentials)
+        this.setAuthToken(response.data)
+        this.setUsername(cridentials.username)
+        this.router.push('/')
+      } catch (error) {
+        const errorMessage = handleLoginFailure(error)
+        this.setError(errorMessage)
+      }
     },
     logout() {
       this.accessToken = ''
@@ -46,27 +36,21 @@ export const useAuthStore = defineStore('auth', {
       router.push('/')
       this.isLogoutModalVisible = true
     },
-    refreshToken() {
+    async refreshToken() {
       if (!this.refreshToken) {
         this.logout()
         return
       }
-      axios
-        .post(REFRESH_LOGIN_ENDPOINT, { refresh_token: this.refreshToken })
-        .then((res) => {
-          const data: IRefreshLoginResponse = res.data
-          this.accessToken = data.access_token
-          this.isAuthenticated = true
+      try {
+        const response = await axios.post<IRefreshLoginResponse>(REFRESH_LOGIN_ENDPOINT, {
+          refresh_token: this.refreshToken
         })
-        .catch((error) => {
-          if (error.response.status === 400) {
-            this.setError(i18n.global.t('general.auth.messages.tokenExpire'))
-          } else {
-            console.log(error)
-            this.setError(i18n.global.t('general.auth.messages.authenticationProblem'))
-          }
-          this.logout()
-        })
+        this.setAuthToken(response.data)
+      } catch (error) {
+        const errorMessage = handleRefreshTokenFailure(error)
+        this.setError(errorMessage)
+        this.logout()
+      }
     },
     showLoginModal() {
       if (!this.isLoginModalVisible && !this.isAuthenticated) {
@@ -80,6 +64,21 @@ export const useAuthStore = defineStore('auth', {
     setError(errorMessage: string) {
       this.errors.message = errorMessage
       this.errors.isOccurred = true
+    }
+  },
+  getters: {
+    isLoggedOut: (state) => !state.isAuthenticated
+  },
+  methods: {
+    setAuthToken(data: { access_token: string; refresh_token: string }) {
+      this.$patch({
+        accessToken: data.access_token,
+        refresh_token: data.refresh_token,
+        isAuthenticated: true
+      })
+    },
+    setUsername(username: string) {
+      this.username = username
     }
   },
   persist: true

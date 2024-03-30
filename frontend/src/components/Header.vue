@@ -6,9 +6,10 @@ import Menubar from 'primevue/menubar'
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import type { MenuItem } from 'primevue/menuitem'
-import i18n from '@/vueI18n'
 import router from '@/router'
+import { useI18n } from 'vue-i18n'
 const authStore = useAuthStore()
+const i18n = useI18n()
 
 const handleLogout = () => {
   authStore.logout()
@@ -19,27 +20,27 @@ const showLoginModal = () => {
 
 const routerMenuItems = {
   home: {
-    label: i18n.global.t('general.menubar.home'),
+    label: i18n.t('general.menubar.home'),
     icon: 'pi pi-fw pi-home',
     command: () => router.push('/')
   },
   about: {
-    label: i18n.global.t('general.menubar.about'),
+    label: i18n.t('general.menubar.about'),
     icon: 'pi pi-fw  pi-info-circle',
     command: () => router.push('/about')
   },
   login: {
-    label: i18n.global.t('general.menubar.login'),
+    label: i18n.t('general.menubar.login'),
     icon: 'pi pi-fw  pi-user',
     command: showLoginModal
   },
   logout: {
-    label: i18n.global.t('general.menubar.logout'),
+    label: i18n.t('general.menubar.logout'),
     icon: 'pi pi-fw  pi-power-off',
     command: handleLogout
   },
   profile: {
-    label: i18n.global.t('general.menubar.profile'),
+    label: i18n.t('general.menubar.profile'),
     icon: 'pi pi-fw pi-user',
     command: () => router.push('/profile')
   }

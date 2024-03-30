@@ -14,7 +14,8 @@ watchEffect(() => {
     toast.add({
       severity: 'error',
       summary: 'Authentication Error',
-      detail: authStore.errors.message
+      detail: authStore.errors.message,
+      life: 3000
     })
     authStore.cleanError()
   }

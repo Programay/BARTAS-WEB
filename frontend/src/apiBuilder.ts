@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { useAuthStore } from '@/stores/authStore'
-import i18n from '@/vueI18n'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
 
 const authStore = useAuthStore()
 
@@ -23,10 +25,10 @@ api.interceptors.response.use(
       if (error.response.status === 401) {
         authStore.refreshToken()
       } else {
-        authStore.setError(i18n.global.t('general.auth.messages.tokenExpire'))
+        authStore.setError(i18n.t('general.auth.messages.tokenExpire'))
       }
     } else {
-      authStore.setError(i18n.global.t('general.auth.messages.loginTechnicalProblems'))
+      authStore.setError(i18n.t('general.auth.messages.loginTechnicalProblems'))
     }
     return Promise.reject(error)
   }

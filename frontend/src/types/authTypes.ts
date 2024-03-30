@@ -1,4 +1,5 @@
 export interface IAuthStore {
+  username: string
   accessToken: string
   refreshToken: string
   isLoginModalVisible: boolean
