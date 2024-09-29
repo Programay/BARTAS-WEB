@@ -39,15 +39,19 @@ clean:
 setup:
 	pre-commit install
 	@make build
+	@make run
+	@make migrate
+	echo "\n\t\t## Success app is now running ##\n"
+
 
 # # Migration
-.PHONY: migrate
-migrate:
-	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic upgrade head"
-
 .PHONY: makemigrations
 makemigrations:
 	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic revision --autogenerate -m 'message'"
+
+.PHONY: migrate
+migrate:
+	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic upgrade head"
 
 # # Add user
 # # Example: make add_admin EMAIL=your.email@here NAME=your_username PASSWORD=your_password
