@@ -20,11 +20,7 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 # models import are needed for collecting Base metadata
-from src.database import Base
-from src.drinks import models
-from src.orders import models
-from src.storage import models
-from src.users import models
+from src import Base
 
 target_metadata = Base.metadata
 
