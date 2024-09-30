@@ -1,29 +1,30 @@
-from sqlalchemy import Boolean, Column, Enum, Integer, String
-from sqlalchemy.orm import relationship
-
-from ..database import Base
-from . import constants
+from sqlalchemy import Boolean, Enum, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src import Base
+from src.storage import constants
 
 
 class IngredientStorage(Base):
     __tablename__ = "ingredients_storage"
 
-    id = Column(Integer, primary_key=True, index=True)
-
-    name = Column(String, unique=True, index=True, nullable=False)
-
-    ingredient_type = Column(Enum(constants.IngredientTypes), nullable=False)
-    ingredient_unit = Column(Enum(constants.IngredientUnits), nullable=False)
-
-    storage_amount = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
-    with_alcohol = Column(Boolean, default=True)
-    can_be_ordered = Column(Boolean, default=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
+    ingredient_type: Mapped[constants.IngredientTypes] = mapped_column(
+        Enum(constants.IngredientTypes), nullable=False
+    )
+    ingredient_unit: Mapped[constants.IngredientUnits] = mapped_column(
+        Enum(constants.IngredientUnits), nullable=False
+    )
+    storage_amount: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[int] = mapped_column(Integer, nullable=False)
+    with_alcohol: Mapped[bool] = mapped_column(Boolean, default=True)
+    can_be_ordered: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # Relations
-    bar_orders = relationship("BarOrder", back_populates="storage_order")
-    ingredients_needed = relationship(
+    bar_orders: Mapped[list["BarOrder"]] = relationship(
+        "BarOrder", back_populates="storage_order"
+    )
+    ingredients_needed: Mapped[list["IngredientNeeded"]] = relationship(
         "IngredientNeeded", back_populates="ingredients_storage"
     )
-
-    image_path = Column(String, nullable=True)
+    image_path: Mapped[str] = mapped_column(String, nullable=True)

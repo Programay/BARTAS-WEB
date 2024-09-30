@@ -1,3 +1,4 @@
+import src
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -5,10 +6,9 @@ from fastapi.staticfiles import StaticFiles
 from .authentications.routers import router as auth_router
 from .database import engine
 from .dependency import has_access
-from .users import models
 from .users.routers import router as users_router
 
-models.Base.metadata.create_all(bind=engine)
+src.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
