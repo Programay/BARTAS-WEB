@@ -9,11 +9,16 @@ DEFAULT_ADMIN_PASSWORD = "admin"
 # Commands
 .PHONY: build
 build:
+	@echo "\033[0;32m ## BUILDING ## \033[0m"
 	docker compose -f $(DOCKER_COMPOSE) build
 
 .PHONY: run
 run:
+	@echo "\033[0;32m ## APP RUN ## \033[0m"
 	docker compose -f $(DOCKER_COMPOSE) up -d
+	@echo "\033[0;32m ## Success. App is now running ## \033[0m"
+	@echo "\033[0;34m FE http://localhost:$$(grep ^FE_PORT= .env | cut -d '=' -f2)\033[0m"
+	@echo "\033[0;34m BE http://localhost:$$(grep ^BE_PORT= .env | cut -d '=' -f2)/redoc\033[0m"
 
 .PHONY: stop
 stop:
@@ -41,8 +46,6 @@ setup:
 	@make build
 	@make run
 	@make migrate
-	echo "\n\t\t## Success app is now running ##\n"
-
 
 # # Migration
 .PHONY: makemigrations
@@ -51,20 +54,20 @@ makemigrations:
 
 .PHONY: migrate
 migrate:
+	@echo "\033[0;32m ## DB MIGRATE ## \033[0m"
 	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic upgrade head"
 
 # # Add user
-# # Example: make add_admin EMAIL=your.email@here NAME=your_username PASSWORD=your_password
-.PHONY: add_admin
-add_admin:
+# # Example: make create_admin EMAIL=your.email@here NAME=your_username PASSWORD=your_password
+.PHONY: create_admin
+create_admin:
 	@if [ "$$(grep ^DEBUG $(ENV_FILE) | cut -d '=' -f2)" = "true" ]; then \
-		echo "## Adding user\n\tusername: $${NAME:-$(DEFAULT_ADMIN_USERNAME)}\temail: $${EMAIL:-$(DEFAULT_ADMIN_EMAIL)}\tpassowrd: $${PASSWORD:-$(DEFAULT_ADMIN_PASSWORD)} ##\n\n"; \
-		export POSTGRES_USER=$$(grep ^POSTGRES_USER $(ENV_FILE) | cut -d '=' -f2); \
+		echo -e "\033[0;32m## Adding user\n\tusername: $${NAME:-$(DEFAULT_ADMIN_USERNAME)}\temail: $${EMAIL:-$(DEFAULT_ADMIN_EMAIL)}\tpassword: $${PASSWORD:-$(DEFAULT_ADMIN_PASSWORD)} ##\033[0m\n\n";		export POSTGRES_USER=$$(grep ^POSTGRES_USER $(ENV_FILE) | cut -d '=' -f2); \
         export POSTGRES_DB=$$(grep ^POSTGRES_DB $(ENV_FILE) | cut -d '=' -f2); \
         docker compose exec -e POSTGRES_USER=$${POSTGRES_USER} -e POSTGRES_DB=$${POSTGRES_DB} db psql --username=$${POSTGRES_USER} $${POSTGRES_DB} -c "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"; \
         docker compose exec -e POSTGRES_USER=$${POSTGRES_USER} -e POSTGRES_DB=$${POSTGRES_DB} db psql --username=$${POSTGRES_USER} $${POSTGRES_DB} -c "CREATE EXTENSION IF NOT EXISTS \"pgcrypto\";"; \
         docker compose exec -e POSTGRES_USER=$${POSTGRES_USER} -e POSTGRES_DB=$${POSTGRES_DB} db psql --username=$${POSTGRES_USER} $${POSTGRES_DB} -c "INSERT INTO users (uuid, username, email, password, is_active, is_staff, \"table\") VALUES (uuid_generate_v4(), '$${NAME:-$(DEFAULT_ADMIN_USERNAME)}', '$${EMAIL:-$(DEFAULT_ADMIN_EMAIL)}', crypt('$${PASSWORD:-$(DEFAULT_ADMIN_PASSWORD)}', gen_salt('bf')), true, false, '');"; \
 		docker compose restart backend; \
 	else \
-		echo "DEBUG mode is not enabled. Aborting."; \
+		echo -e "\033[0;33mDEBUG mode is not enabled. Aborting.\033[0m"; \
 	fi
