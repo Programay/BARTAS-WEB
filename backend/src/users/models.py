@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from sqlalchemy import Boolean, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src import Base
 
 
@@ -21,3 +21,8 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_staff: Mapped[bool] = mapped_column(Boolean, default=False)
     table: Mapped[Optional[str]]
+
+    # Relations
+    bar_orders: Mapped[list["BarOrder"]] = relationship(
+        "BarOrder", back_populates="user"
+    )

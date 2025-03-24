@@ -46,9 +46,9 @@ class IngredientNeeded(Base):
         Integer, ForeignKey("drinks.id"), nullable=False
     )
     drink: Mapped["Drink"] = relationship("Drink", back_populates="ingredients_needed")
-    ingredient_storage_id: Mapped[int] = mapped_column(
+    ingredients_storage_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("ingredients_storage.id")
     )
-    ingredient_storage: Mapped["IngredientStorage"] = relationship(
+    ingredients_storage: Mapped["IngredientStorage"] = relationship(
         "IngredientStorage", back_populates="ingredients_needed"
     )
