@@ -1,4 +1,3 @@
-from typing import Optional
 from uuid import uuid4
 
 from sqlalchemy import Boolean, String
@@ -15,13 +14,13 @@ class User(Base):
         UUID(as_uuid=True), primary_key=True, index=True, default=uuid4
     )
     username: Mapped[str] = mapped_column(String, unique=True, index=True)
-    email: Mapped[Optional[str]] = mapped_column(
+    email: Mapped[str | None] = mapped_column(
         String, unique=True, index=True, nullable=True
     )
     password: Mapped[str] = mapped_column(String, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_staff: Mapped[bool] = mapped_column(Boolean, default=False)
-    table: Mapped[Optional[str]]
+    table: Mapped[str | None]
 
     # Relations
     bar_orders: Mapped[list["BarOrder"]] = relationship(
