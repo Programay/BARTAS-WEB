@@ -1,15 +1,15 @@
 """Initial migration
 
-Revision ID: 129d7e92d950
+Revision ID: 595d06d065db
 Revises: 
-Create Date: 2025-03-24 21:57:59.938323
+Create Date: 2025-03-24 22:23:51.363605
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '129d7e92d950'
+revision = '595d06d065db'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,7 +40,7 @@ def upgrade() -> None:
     sa.Column('ingredient_type', sa.Enum('LIQUID', 'BEER', 'FRUIT', 'VEGETABLE', 'SNACK', 'OTHER', name='ingredienttypes'), nullable=False),
     sa.Column('ingredient_unit', sa.Enum('MILLILITER', 'PIECE', 'PACK', name='ingredientunits'), nullable=False),
     sa.Column('storage_amount', sa.Integer(), nullable=False),
-    sa.Column('price', sa.Integer(), nullable=False),
+    sa.Column('price', sa.Float(), nullable=False),
     sa.Column('with_alcohol', sa.Boolean(), nullable=False),
     sa.Column('can_be_ordered', sa.Boolean(), nullable=False),
     sa.Column('image_path', sa.String(), nullable=True),
@@ -68,14 +68,14 @@ def upgrade() -> None:
     op.create_table('bar_orders',
     sa.Column('uuid', sa.UUID(), nullable=False),
     sa.Column('status', sa.Enum('CREATED', 'ACCEPTED', 'IN_PROGRESS', 'COMPLETED', 'REJECTED', 'CANCELED', name='orderstatus'), nullable=False),
-    sa.Column('user_id', sa.UUID(), nullable=True),
+    sa.Column('user_uuid', sa.UUID(), nullable=True),
     sa.Column('drink_id', sa.Integer(), nullable=True),
     sa.Column('storage_order_id', sa.Integer(), nullable=True),
     sa.Column('date_creation', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('date_modified', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
     sa.ForeignKeyConstraint(['storage_order_id'], ['ingredients_storage.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.uuid'], ),
+    sa.ForeignKeyConstraint(['user_uuid'], ['users.uuid'], ),
     sa.PrimaryKeyConstraint('uuid')
     )
     op.create_index(op.f('ix_bar_orders_uuid'), 'bar_orders', ['uuid'], unique=False)

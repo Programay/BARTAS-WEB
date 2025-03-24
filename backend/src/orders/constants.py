@@ -1,7 +1,7 @@
-import enum
+from enum import StrEnum
 
 
-class OrderStatus(enum.Enum):
+class OrderStatus(StrEnum):
     """Available status for order."""
 
     CREATED = "created"

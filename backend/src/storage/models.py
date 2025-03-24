@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Enum, Integer, String
+from sqlalchemy import Boolean, Enum, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .. import Base
@@ -17,7 +17,7 @@ class IngredientStorage(Base):
         Enum(constants.IngredientUnits), nullable=False
     )
     storage_amount: Mapped[int] = mapped_column(Integer, nullable=False)
-    price: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
     with_alcohol: Mapped[bool] = mapped_column(Boolean, default=True)
     can_be_ordered: Mapped[bool] = mapped_column(Boolean, default=False)
 

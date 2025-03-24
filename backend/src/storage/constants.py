@@ -1,7 +1,7 @@
-import enum
+from enum import StrEnum
 
 
-class IngredientTypes(enum.Enum):
+class IngredientTypes(StrEnum):
     """Possible ingredient types."""
 
     LIQUID = "LIQUID"
@@ -12,7 +12,7 @@ class IngredientTypes(enum.Enum):
     OTHER = "OTHER"
 
 
-class IngredientUnits(enum.Enum):
+class IngredientUnits(StrEnum):
     """Possible ingredient units."""
 
     MILLILITER = "MILLILITER"

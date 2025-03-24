@@ -22,7 +22,9 @@ class BarOrder(Base):
     )
 
     # Relations
-    user_id: Mapped[UUID] = mapped_column(UUID, ForeignKey("users.uuid"), nullable=True)
+    user_uuid: Mapped[UUID] = mapped_column(
+        UUID, ForeignKey("users.uuid"), nullable=True
+    )
     user: Mapped["User"] = relationship("User", back_populates="bar_orders")
 
     drink_id: Mapped[int] = mapped_column(
