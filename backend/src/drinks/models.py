@@ -1,7 +1,8 @@
 from sqlalchemy import Boolean, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src import Base
-from src.drinks import constants
+
+from .. import Base
+from ..drinks import constants
 
 
 class Drink(Base):

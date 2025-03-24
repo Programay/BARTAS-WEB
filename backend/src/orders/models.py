@@ -3,8 +3,9 @@ from uuid import uuid4
 from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src import Base
-from src.orders import constants
+
+from .. import Base
+from ..orders import constants
 
 
 class BarOrder(Base):

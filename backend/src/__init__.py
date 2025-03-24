@@ -4,9 +4,15 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.sql import func
 
 
-class Base(DeclarativeBase):
+class TimestampMixin:
+    """Mixin for adding timestamp columns."""
+
     date_creation: Mapped[datetime] = mapped_column(server_default=func.now())
     date_modified: Mapped[datetime] = mapped_column(onupdate=func.now(), nullable=True)
+
+
+class Base(TimestampMixin, DeclarativeBase):
+    pass
 
 
 from .drinks.models import Drink, IngredientNeeded

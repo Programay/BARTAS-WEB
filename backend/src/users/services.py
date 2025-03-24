@@ -1,4 +1,4 @@
-from typing import List, Type
+from typing import Type
 from uuid import UUID
 
 from sqlalchemy.orm import Session
