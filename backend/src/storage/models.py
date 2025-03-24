@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Enum, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .. import Base
-from ..storage import constants
+from . import constants
 
 
 class IngredientStorage(Base):

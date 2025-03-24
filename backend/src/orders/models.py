@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .. import Base
-from ..orders import constants
+from . import constants
 
 
 class BarOrder(Base):
