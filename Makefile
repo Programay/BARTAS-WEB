@@ -9,7 +9,7 @@ DEFAULT_ADMIN_PASSWORD = "admin"
 # Commands
 .PHONY: build
 build:
-	docker compose -f $(DOCKER_COMPOSE) build
+	docker compose -f $(DOCKER_COMPOSE) build --no-cache
 
 .PHONY: run
 run:
