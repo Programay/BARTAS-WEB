@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -17,8 +19,8 @@ class UserLogin(BaseModel):
 
 
 class User(UserBase):
-    id: int
-    table: str
+    uuid: UUID
+    table: str | None
 
     class Config:
         from_attributes = True
@@ -27,3 +29,14 @@ class User(UserBase):
 # Custom Response types
 class UserCreateResponse(BaseModel):
     username: str
+
+
+class UserUpdate(BaseModel):
+    username: str | None = None
+    password: str | None = None
+    is_active: bool | None = None
+    is_staff: bool | None = None
+    table: str | None = None
+
+    class Config:
+        from_attributes = True

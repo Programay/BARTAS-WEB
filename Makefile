@@ -9,7 +9,7 @@ DEFAULT_ADMIN_PASSWORD = "admin"
 # Commands
 .PHONY: build
 build:
-	docker compose -f $(DOCKER_COMPOSE) build
+	docker compose -f $(DOCKER_COMPOSE) build --no-cache
 
 .PHONY: run
 run:
@@ -52,6 +52,10 @@ makemigrations:
 .PHONY: migrate
 migrate:
 	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic upgrade head"
+
+.PHONY: roll_migration
+roll_migration:
+	docker compose -f $(DOCKER_COMPOSE) run --rm backend sh -c "alembic downgrade -1"
 
 # # Add user
 # # Example: make add_admin EMAIL=your.email@here NAME=your_username PASSWORD=your_password

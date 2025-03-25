@@ -1,7 +1,7 @@
-import enum
+from enum import StrEnum
 
 
-class ComplicatedLevels(enum.Enum):
+class ComplicatedLevels(StrEnum):
     """Complicated drink level."""
 
     EASY = "EASY"
@@ -9,7 +9,7 @@ class ComplicatedLevels(enum.Enum):
     HARD = "HARD"
 
 
-class DrinkTypes(enum.Enum):
+class DrinkTypes(StrEnum):
     """Possible drink types."""
 
     ONE_SHOT = "ONE SHOT"

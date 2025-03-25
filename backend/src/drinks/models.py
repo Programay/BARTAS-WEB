@@ -1,52 +1,55 @@
-from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Enum, ForeignKey, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ..database import Base
+from .. import Base
 from . import constants
 
 
 class Drink(Base):
     __tablename__ = "drinks"
 
-    id = Column(Integer, primary_key=True, index=True)
-
-    name = Column(String, unique=True, index=True, nullable=False)
-
-    complicated = Column(Enum(constants.ComplicatedLevels), nullable=False)
-    drink_type = Column(Enum(constants.DrinkTypes), nullable=False)
-    preparation_description = Column(String, nullable=True)
-
-    amount = Column(Integer, nullable=False)
-    price = Column(Integer, nullable=False)
-
-    with_alcohol = Column(Boolean, default=True)
-    is_possible_to_make = Column(Boolean, default=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String, unique=True, index=True, nullable=False)
+    complicated: Mapped[constants.ComplicatedLevels] = mapped_column(
+        Enum(constants.ComplicatedLevels), nullable=False
+    )
+    drink_type: Mapped[constants.DrinkTypes] = mapped_column(
+        Enum(constants.DrinkTypes), nullable=False
+    )
+    preparation_description: Mapped[str] = mapped_column(String, nullable=True)
+    amount: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[int] = mapped_column(Integer, nullable=False)
+    with_alcohol: Mapped[bool] = mapped_column(Boolean, default=True)
+    is_possible_to_make: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # Relations
-    bar_orders = relationship("BarOrder", back_populates="drink")
-
-    ingredients_needed = relationship(
+    bar_orders: Mapped[list["BarOrder"]] = relationship(
+        "BarOrder", back_populates="drink"
+    )
+    ingredients_needed: Mapped[list["IngredientNeeded"]] = relationship(
         "IngredientNeeded",
         back_populates="drink",
         cascade="all,delete",
         passive_deletes=True,
     )
-
-    image_path = Column(String, nullable=True)
+    image_path: Mapped[str] = mapped_column(String, nullable=True)
 
 
 class IngredientNeeded(Base):
     __tablename__ = "ingredients_needed"
 
-    id = Column(Integer, primary_key=True, index=True)
-    amount_needed = Column(Integer, nullable=False)
-    is_enough_to_make_a_drink = Column(Boolean, default=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    amount_needed: Mapped[int] = mapped_column(Integer, nullable=False)
+    is_enough_to_make_a_drink: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # Relations
-    drink_id = Column(Integer, ForeignKey("drinks.id"), nullable=False)
-    drink = relationship("Drink", back_populates="ingredients_needed")
-
-    ingredient_storage_id = Column(Integer, ForeignKey("ingredients_storage.id"))
-    ingredient_storage = relationship(
+    drink_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("drinks.id"), nullable=False
+    )
+    drink: Mapped["Drink"] = relationship("Drink", back_populates="ingredients_needed")
+    ingredients_storage_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("ingredients_storage.id")
+    )
+    ingredients_storage: Mapped["IngredientStorage"] = relationship(
         "IngredientStorage", back_populates="ingredients_needed"
     )
