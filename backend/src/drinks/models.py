@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .. import Base
+from .. import BarOrder, Base, IngredientStorage
 from . import constants
 
 

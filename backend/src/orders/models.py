@@ -4,7 +4,7 @@ from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .. import Base
+from .. import Base, Drink, IngredientStorage, User
 from . import constants
 
 

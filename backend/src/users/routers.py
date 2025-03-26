@@ -18,7 +18,9 @@ async def read_users(
 
 
 @router.get("/{username}")
-async def read_user(username: str, db: Session = Depends(get_db)) -> schemas.User:
+async def read_user_by_username(
+    username: str, db: Session = Depends(get_db)
+) -> schemas.User:
     db_user = services.get_user_by_username(db, username=username)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
@@ -26,7 +28,9 @@ async def read_user(username: str, db: Session = Depends(get_db)) -> schemas.Use
 
 
 @router.get("/id/{user_uuid}")
-async def read_user(user_uuid: UUID, db: Session = Depends(get_db)) -> schemas.User:
+async def read_user_by_uuid(
+    user_uuid: UUID, db: Session = Depends(get_db)
+) -> schemas.User:
     db_user = services.get_user_by_id(db, user_uuid=user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")

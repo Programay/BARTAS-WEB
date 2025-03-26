@@ -4,7 +4,7 @@ from sqlalchemy import Boolean, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .. import Base
+from .. import BarOrder, Base
 
 
 class User(Base):
