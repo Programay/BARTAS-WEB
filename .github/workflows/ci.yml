@@ -2,25 +2,59 @@ name: CI Pipeline
 on: [push, pull_request]
 
 jobs:
-  lint-test-build:
+  setup:
     runs-on: ubuntu-latest
+    outputs:
+      python-version: ${{ steps.get-python-version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Get Python version
+        id: get-python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: $(cat backend/.python-version)
+          python-version: ${{ needs.setup.outputs.python-version }}
 
-      - name: Install dependencies
-        run: pip install ruff mypy
+      - name: Install Ruff
+        run: pip install ruff
 
-      - name: Run Ruff (linting)
+      - name: Run linter
         run: ruff check .
 
-      - name: Run Mypy (type checking)
-        run: mypy backend/src/  # Adjust path to your source
+  typecheck:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install Mypy
+        run: pip install mypy
+
+      - name: Run type checker
+        run: mypy backend/src/
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install dependencies
+        run: pip install pytest
 
       - name: Run tests
         run: pytest backend/
