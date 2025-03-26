@@ -45,7 +45,7 @@ jobs:
         run: pip install mypy
 
       - name: Run type checker
-        run: mypy backend/src/
+        run: mypy src/
 
   test:
     needs: setup
@@ -60,4 +60,4 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        run: pytest backend/
+        run: pytest src/
