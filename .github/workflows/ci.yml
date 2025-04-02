@@ -48,9 +48,8 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          uv venv .venv  # Create a virtual environment
-          source .venv/bin/activate  # Activate the virtual environment
-          uv pip install -e ".[dev]"  # Install in editable mode with dev dependencies
+          uv pip compile --group dev --quiet --generate-hashes -o requirements.txt pyproject.toml
+          uv pip install --no-cache --system -r requirements.txt
           uv add --dev \
             sqlalchemy2-stubs \
             types-python-jose \
