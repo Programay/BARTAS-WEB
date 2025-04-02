@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from decouple import config
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, func
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
 engine = create_engine(
     f"postgresql://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@db:{config('POSTGRES_PORT')}/{config('POSTGRES_DB')}"
@@ -14,3 +16,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+class TimestampMixin:
+    """Mixin for adding timestamp columns."""
+
+    date_creation: Mapped[datetime] = mapped_column(server_default=func.now())
+    date_modified: Mapped[datetime] = mapped_column(onupdate=func.now(), nullable=True)
+
+
+class Base(TimestampMixin, DeclarativeBase):
+    pass

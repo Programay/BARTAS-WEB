@@ -1,8 +1,15 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Boolean, Enum, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .. import BarOrder, Base, IngredientNeeded
-from . import constants
+from src.database import Base
+from src.storage import constants
+
+if TYPE_CHECKING:
+    # For IDE type checking only
+    from src.drinks.models import IngredientNeeded
+    from src.orders.models import BarOrder
 
 
 class IngredientStorage(Base):

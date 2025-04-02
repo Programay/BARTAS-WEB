@@ -3,7 +3,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import jwt
 from jose.exceptions import JOSEError
 
-from .authentications.constants import JWT_SECRET_KEY
+from src.authentications.constants import JWT_SECRET_KEY
 
 security = HTTPBearer()
 

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from jose import jwt
 
-from . import constants
+from src.authentications import constants
 
 
 def create_token(subject: dict, secret: str, expires_delta: int) -> str:

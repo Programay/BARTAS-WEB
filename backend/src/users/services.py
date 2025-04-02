@@ -3,8 +3,8 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from . import models, schemas
-from .utils import get_hashed_password
+from src.users import models, schemas
+from src.users.utils import get_hashed_password
 
 
 def get_user_by_id(db: Session, user_uuid: UUID) -> models.User | None:

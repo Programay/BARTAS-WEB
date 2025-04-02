@@ -2,11 +2,14 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from . import Base
-from .authentications.routers import router as auth_router
-from .database import engine
-from .dependency import has_access
-from .users.routers import router as users_router
+from src.authentications.routers import router as auth_router
+from src.database import Base, engine
+from src.dependency import has_access
+from src.drinks.models import Drink, IngredientNeeded  # noqa F401
+from src.orders.models import BarOrder  # noqa F401
+from src.storage.models import IngredientStorage  # noqa F401
+from src.users.models import User  # noqa F401
+from src.users.routers import router as users_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,4 +36,6 @@ app.include_router(users_router)
 
 @app.get("/")
 async def home():
-    return {"message": "http://localhost:5000/redoc"}
+    return {
+        "message": "redoc - http://localhost:5000/redoc \n swagger - http://localhost:5000/docs"
+    }

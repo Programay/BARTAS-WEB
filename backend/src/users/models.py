@@ -1,10 +1,15 @@
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 from sqlalchemy import Boolean, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .. import BarOrder, Base
+from src.database import Base
+
+if TYPE_CHECKING:
+    # For IDE type checking only
+    from src.orders.models import BarOrder
 
 
 class User(Base):
