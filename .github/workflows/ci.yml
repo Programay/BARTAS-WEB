@@ -42,7 +42,7 @@ jobs:
         run: pip install mypy
 
       - name: Run type checker
-        run: mypy src/
+        run: mypy
 
   test:
     needs: setup
@@ -57,4 +57,4 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        run: pytest src/
+        run: pytest tests/
