@@ -53,8 +53,7 @@ jobs:
           uv add --dev \
             sqlalchemy2-stubs \
             types-python-jose \
-            types-passlib \
-            alembic-stubs
+            types-passlib
 
       - name: Run type checker
         run: |
