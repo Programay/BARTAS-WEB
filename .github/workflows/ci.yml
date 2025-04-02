@@ -75,5 +75,11 @@ jobs:
         with:
           version: "0.6.9"
 
+      - name: Install dependencies
+        run: |
+          cd backend
+          uv pip compile --group dev --quiet --generate-hashes -o requirements.txt pyproject.toml
+          uv pip install --no-cache --system -r requirements.txt
+
       - name: Run tests
         run: pytest backend/tests/
