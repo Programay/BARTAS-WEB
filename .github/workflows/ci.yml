@@ -10,18 +10,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          version: "0.6.9"
-
-      - name: Set up Python
-        run: uv python install
-        with:
-          python-version-file: "pyproject.toml"
-
-      - name: Install the project
-        run: uv sync --all-extras --dev
+      - name: Get Python version
+        id: get-python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
 
   lint:
     needs: setup
@@ -47,18 +38,23 @@ jobs:
         with:
           python-version: ${{ needs.setup.outputs.python-version }}
 
-      - name: Install requirements
-        run: |
-          pip install mypy
-          pip install types-python-jose  # Install missing stubs
-          pip install -e backend/.  # Install project dependencies
+      - name: Install Mypy
+        run: cd backend && uv sync
 
       - name: Run type checker
-        run: mypy backend/src/ --config-file backend/mypy.ini
+        run: mypy backend/src/
 
   test:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install dependencies
+        run: pip install pytest
+
       - name: Run tests
-        run: uv run pytest backend/tests/
+        run: pytest backend/tests/
