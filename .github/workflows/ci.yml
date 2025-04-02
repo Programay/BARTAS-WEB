@@ -45,11 +45,21 @@ jobs:
         with:
           version: "0.6.9"
 
-      - name: Install Mypy
-        run: cd backend && uv sync
+      - name: Install dependencies
+        run: |
+          cd backend
+          uv pip install -e ".[dev]"  # Install in editable mode with dev dependencies
+          uv add --dev \
+            sqlalchemy2-stubs \
+            types-python-jose \
+            types-passlib \
+            alembic-stubs
 
       - name: Run type checker
-        run: mypy backend/src/
+        run: |
+          mypy backend/src/ \
+            --config-file backend/pyproject.toml \
+            --python-version ${{ needs.setup.outputs.python-version }}
 
   test:
     needs: setup
