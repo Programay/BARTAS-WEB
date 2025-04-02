@@ -48,9 +48,10 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          uv sync --system  # System-wide install in CI environment
-          uv pip install --system -e ".[dev]" 
-          uv pip install --system --no-deps \
+          uv venv .venv  # Create a virtual environment
+          source .venv/bin/activate  # Activate the virtual environment
+          uv pip install -e ".[dev]"  # Install in editable mode with dev dependencies
+          uv add --dev \
             sqlalchemy2-stubs \
             types-python-jose \
             types-passlib \
