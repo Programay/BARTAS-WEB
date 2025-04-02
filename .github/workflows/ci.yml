@@ -10,10 +10,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get Python version
-        id: get-python-version
-        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.9"
   lint:
     needs: setup
     runs-on: ubuntu-latest
