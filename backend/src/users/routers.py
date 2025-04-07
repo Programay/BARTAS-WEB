@@ -1,3 +1,4 @@
+from typing import Type
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -12,7 +13,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.get("/")
 async def read_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
-) -> list[schemas.User]:
+) -> list[Type[schemas.User]]:
     users = services.get_users(db, skip=skip, limit=limit)
     return users
 

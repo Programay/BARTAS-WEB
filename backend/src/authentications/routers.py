@@ -14,6 +14,7 @@ from backend.src.authentications.utils import (
 from backend.src.database import get_db
 from backend.src.users import schemas as user_schemas
 from backend.src.users import services
+from backend.src.users.schemas import SubjectSchema
 from backend.src.users.utils import verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -31,10 +32,10 @@ async def tokens(
         raise InvalidCredentialException()
 
     access_token = create_access_token(
-        subject={"username": db_user.username, "is_staff": db_user.is_staff}
+        subject=SubjectSchema(username=db_user.username, is_staff=db_user.is_staff)
     )
     refresh_token = create_refresh_token(
-        subject={"username": db_user.username, "is_staff": db_user.is_staff}
+        subject=SubjectSchema(username=db_user.username, is_staff=db_user.is_staff)
     )
 
     return schemas.LoginResponse(access_token=access_token, refresh_token=refresh_token)

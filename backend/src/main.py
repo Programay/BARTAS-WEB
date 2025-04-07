@@ -35,7 +35,7 @@ app.include_router(users_router)
 
 
 @app.get("/")
-async def home():
+async def home() -> dict[str, str]:
     return {
         "message": "redoc - http://localhost:5000/redoc \n swagger - http://localhost:5000/docs"
     }

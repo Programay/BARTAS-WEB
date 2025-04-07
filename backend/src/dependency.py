@@ -8,7 +8,9 @@ from backend.src.authentications.constants import JWT_SECRET_KEY
 security = HTTPBearer()
 
 
-async def has_access(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def has_access(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> None:
     token = credentials.credentials
 
     try:
@@ -27,7 +29,7 @@ async def has_access(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 async def has_staff_access(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-):
+) -> None:
     token = credentials.credentials
 
     try:

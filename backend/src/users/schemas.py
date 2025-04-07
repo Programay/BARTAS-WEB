@@ -40,3 +40,8 @@ class UserUpdate(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class SubjectSchema(BaseModel):
+    username: str
+    is_staff: bool
