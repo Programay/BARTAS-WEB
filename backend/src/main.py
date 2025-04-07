@@ -2,14 +2,14 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from src.authentications.routers import router as auth_router
-from src.database import Base, engine
-from src.dependency import has_access
-from src.drinks.models import Drink, IngredientNeeded  # noqa F401
-from src.orders.models import BarOrder  # noqa F401
-from src.storage.models import IngredientStorage  # noqa F401
-from src.users.models import User  # noqa F401
-from src.users.routers import router as users_router
+from backend.src.authentications.routers import router as auth_router
+from backend.src.database import Base, engine
+from backend.src.dependency import has_access
+from backend.src.drinks.models import Drink, IngredientNeeded  # noqa F401
+from backend.src.orders.models import BarOrder  # noqa F401
+from backend.src.storage.models import IngredientStorage  # noqa F401
+from backend.src.users.models import User  # noqa F401
+from backend.src.users.routers import router as users_router
 
 Base.metadata.create_all(bind=engine)
 
