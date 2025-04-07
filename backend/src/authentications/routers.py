@@ -1,20 +1,20 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from src.authentications import schemas
-from src.authentications.exceptions import (
+from backend.src.authentications import schemas
+from backend.src.authentications.exceptions import (
     InvalidCredentialException,
     InvalidTokenException,
 )
-from src.authentications.utils import (
+from backend.src.authentications.utils import (
     create_access_token,
     create_refresh_token,
     is_refresh_token_valid,
 )
-from src.database import get_db
-from src.users import schemas as user_schemas
-from src.users import services
-from src.users.utils import verify_password
+from backend.src.database import get_db
+from backend.src.users import schemas as user_schemas
+from backend.src.users import services
+from backend.src.users.utils import verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

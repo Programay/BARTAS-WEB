@@ -5,14 +5,14 @@ from sqlalchemy import Enum, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.database import Base
-from src.orders import constants
+from backend.src.database import Base
+from backend.src.orders import constants
 
 if TYPE_CHECKING:
     # For IDE type checking only
-    from src.drinks.models import Drink
-    from src.storage.models import IngredientStorage
-    from src.users.models import User
+    from backend.src.drinks.models import Drink
+    from backend.src.storage.models import IngredientStorage
+    from backend.src.users.models import User
 
 
 class BarOrder(Base):

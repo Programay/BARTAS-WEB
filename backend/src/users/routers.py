@@ -3,8 +3,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from src.database import get_db
-from src.users import schemas, services
+from backend.src.database import get_db
+from backend.src.users import schemas, services
 
 router = APIRouter(prefix="/users", tags=["users"])
 

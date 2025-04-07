@@ -3,13 +3,13 @@ from typing import TYPE_CHECKING
 from sqlalchemy import Boolean, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.database import Base
-from src.drinks import constants
+from backend.src.database import Base
+from backend.src.drinks import constants
 
 if TYPE_CHECKING:
     # For IDE type checking only
-    from src.orders.models import BarOrder
-    from src.storage.models import IngredientStorage
+    from backend.src.orders.models import BarOrder
+    from backend.src.storage.models import IngredientStorage
 
 
 class Drink(Base):
