@@ -64,6 +64,9 @@ jobs:
   test:
     needs: setup
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET_KEY: some_dummy_key
+      JWT_REFRESH_SECRET_KEY: some_dummy_key
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
