@@ -67,6 +67,10 @@ jobs:
     env:
       JWT_SECRET_KEY: some_dummy_key
       JWT_REFRESH_SECRET_KEY: some_dummy_key
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_PORT: 5432
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
