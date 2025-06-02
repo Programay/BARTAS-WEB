@@ -1,4 +1,3 @@
-from typing import Type
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -13,7 +12,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.get("/")
 async def read_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
-) -> list[Type[schemas.User]]:
+) -> list[schemas.User]:
     users = services.get_users(db, skip=skip, limit=limit)
     return users
 
@@ -57,4 +56,4 @@ async def update_user(
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found.")
     db_user = services.update_user(db=db, user_data=user_data, db_user=db_user)
-    return db_user
+    return schemas.User.model_valudate(db_user)

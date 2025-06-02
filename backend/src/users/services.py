@@ -7,7 +7,8 @@ from backend.src.users.utils import get_hashed_password
 
 
 def get_user_by_id(db: Session, user_uuid: UUID) -> models.User | None:
-    return db.query(models.User).filter(models.User.uuid == user_uuid).first()
+    user = db.query(models.User).filter(models.User.uuid == user_uuid).first()
+    return schemas.User.model_validate(user)
 
 
 def get_user_by_username(db: Session, username: str) -> schemas.User | None:
@@ -16,10 +17,8 @@ def get_user_by_username(db: Session, username: str) -> schemas.User | None:
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[schemas.User]:
-    return [
-        schemas.User.model_validate(user)
-        for user in db.query(models.User).offset(skip).limit(limit).all()
-    ]
+    users = db.query(models.User).offset(skip).limit(limit).all()
+    return [schemas.User.model_validate(user) for user in users]
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
