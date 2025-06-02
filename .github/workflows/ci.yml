@@ -62,7 +62,6 @@ jobs:
             sqlalchemy2-stubs \
             types-passlib \
             types-python-jose \
-            types-python-decouple \
             mypy-extensions
 
       - name: Run type checker
