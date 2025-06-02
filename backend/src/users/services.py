@@ -11,9 +11,9 @@ def get_user_by_id(db: Session, user_uuid: UUID) -> schemas.User | None:
     return schemas.User.model_validate(user)
 
 
-def get_user_by_username(db: Session, username: str) -> schemas.User | None:
+def get_user_by_username(db: Session, username: str) -> schemas.UserLogin | None:
     user = db.query(models.User).filter(models.User.username == username).first()
-    return schemas.User.model_validate(user)
+    return schemas.UserLogin.model_validate(user)
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[schemas.User]:
