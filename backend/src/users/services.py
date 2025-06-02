@@ -1,23 +1,24 @@
-from typing import Type
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from . import models, schemas
-from .utils import get_hashed_password
+from backend.src.users import models, schemas
+from backend.src.users.utils import get_hashed_password
 
 
 def get_user_by_id(db: Session, user_uuid: UUID) -> models.User | None:
-    return db.query(models.User).filter(models.User.uuid == user_uuid).first()
+    user = db.query(models.User).filter(models.User.uuid == user_uuid).first()
+    return user
 
 
-def get_user_by_username(db: Session, username: str) -> schemas.User | None:
+def get_user_by_username(db: Session, username: str) -> models.User | None:
     user = db.query(models.User).filter(models.User.username == username).first()
     return user
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[Type[schemas.User]]:
-    return db.query(models.User).offset(skip).limit(limit).all()
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[models.User]:
+    users = db.query(models.User).offset(skip).limit(limit).all()
+    return users
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:

@@ -4,6 +4,15 @@ from alembic import context
 from decouple import config as decouple_config
 from sqlalchemy import engine_from_config, pool
 
+# add your model's MetaData object here
+# for 'autogenerate' support
+# models import are needed for collecting Base metadata
+from backend.src.database import Base
+from backend.src.drinks.models import Drink, IngredientNeeded  # noqa F401
+from backend.src.orders.models import BarOrder  # noqa F401
+from backend.src.storage.models import IngredientStorage  # noqa F401
+from backend.src.users.models import User  # noqa F401
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -17,10 +26,6 @@ config.set_main_option(
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# models import are needed for collecting Base metadata
-from src import Base
 
 target_metadata = Base.metadata
 

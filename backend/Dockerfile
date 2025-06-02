@@ -14,7 +14,7 @@ WORKDIR /backend
 # Install dependencies
 COPY pyproject.toml uv.lock ./
 
-RUN uv pip compile --quiet --generate-hashes -o requirements.txt pyproject.toml
+RUN uv pip compile --group dev --quiet --generate-hashes -o requirements.txt pyproject.toml
 RUN uv pip install --no-cache --system -r requirements.txt
 
 # Runtime

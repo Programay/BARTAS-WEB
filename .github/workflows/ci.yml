@@ -1,0 +1,108 @@
+name: CI Pipeline
+on: [push]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      python-version: ${{ steps.get-python-version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get Python version
+        id: get-python-version
+        run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
+
+  backend-lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.9"
+
+      - name: Run linter
+        env:
+          UV_CACHE_DIR: ${{ runner.tool_cache }}/uv
+        run: |
+          cd backend
+          uvx ruff check .
+
+  backend-typecheck:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.9"
+
+      - name: Install dependencies
+        env:
+          UV_CACHE_DIR: ${{ runner.tool_cache }}/uv
+        run: |
+          cd backend
+          uv pip compile --group dev --quiet --generate-hashes -o requirements.txt pyproject.toml
+          uv pip install --no-cache --system -r requirements.txt
+          uv add --dev \
+            sqlalchemy2-stubs \
+            types-passlib \
+            types-python-jose \
+            mypy-extensions
+
+      - name: Run type checker
+        env:
+          UV_CACHE_DIR: ${{ runner.tool_cache }}/uv
+        run: |
+          mypy backend/src/ \
+            --config-file backend/pyproject.toml \
+            --python-version ${{ needs.setup.outputs.python-version }} \
+            --ignore-missing-imports \
+            --disallow-untyped-defs \
+            --disallow-incomplete-defs \
+            --check-untyped-defs \
+            --disallow-untyped-decorators \
+            --no-implicit-optional \
+            --warn-redundant-casts \
+            --warn-unused-ignores \
+            --warn-return-any \
+            --warn-unreachable
+
+  build:
+    needs: [backend-typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ needs.setup.outputs.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.6.9"
+
+      - name: Build backend
+        env:
+          UV_CACHE_DIR: ${{ runner.tool_cache }}/uv
+        run: |
+          cd backend
+          uv venv
+          source .venv/bin/activate
+          uv pip install -e .

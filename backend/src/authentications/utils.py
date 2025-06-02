@@ -1,20 +1,22 @@
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
-from jose import jwt
+from jose import ExpiredSignatureError, jwt
 
-from . import constants
+from backend.src.authentications import constants
+from backend.src.users.schemas import SubjectSchema
 
 
-def create_token(subject: dict, secret: str, expires_delta: int) -> str:
-    expires_delta = datetime.utcnow() + timedelta(minutes=expires_delta)
-    payload = {"exp": expires_delta}
+def create_token(subject: SubjectSchema, secret: str, expires_delta: int) -> str:
+    payload = {"exp": datetime.now(UTC) + timedelta(minutes=expires_delta)}
     payload.update(subject)
-    encoded_jwt = jwt.encode(claims=payload, key=secret, algorithm=constants.ALGORITHM)
+    encoded_jwt: str = jwt.encode(
+        claims=payload, key=secret, algorithm=constants.ALGORITHM
+    )
     return encoded_jwt
 
 
 def create_access_token(
-    subject: dict, expires_delta: int = constants.ACCESS_TOKE_EXPIRE_MINUTES
+    subject: SubjectSchema, expires_delta: int = constants.ACCESS_TOKE_EXPIRE_MINUTES
 ) -> str:
     encoded_jwt = create_token(
         subject=subject, expires_delta=expires_delta, secret=constants.JWT_SECRET_KEY
@@ -23,7 +25,7 @@ def create_access_token(
 
 
 def create_refresh_token(
-    subject: dict, expires_delta: int = constants.REFRESH_TOKEN_EXPIRE_MINUTES
+    subject: SubjectSchema, expires_delta: int = constants.REFRESH_TOKEN_EXPIRE_MINUTES
 ) -> str:
     encoded_jwt = create_token(
         subject=subject,
@@ -33,13 +35,13 @@ def create_refresh_token(
     return encoded_jwt
 
 
-def is_refresh_token_valid(refresh_token: str) -> tuple[bool, dict]:
+def is_refresh_token_valid(refresh_token: str) -> tuple[bool, SubjectSchema | None]:
     try:
         jwt_json = jwt.decode(
             token=refresh_token,
             key=constants.JWT_REFRESH_SECRET_KEY,
             algorithms=constants.ALGORITHM,
         )
-        return False, jwt_json
-    except jwt.ExpiredSignatureError:
-        return True, {}
+        return False, SubjectSchema(**jwt_json)
+    except ExpiredSignatureError:
+        return True, None

@@ -3,8 +3,8 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from ..database import get_db
-from . import schemas, services
+from backend.src.database import get_db
+from backend.src.users import schemas, services
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -14,23 +14,27 @@ async def read_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 ) -> list[schemas.User]:
     users = services.get_users(db, skip=skip, limit=limit)
-    return users
+    return [schemas.User.model_validate(user) for user in users]
 
 
 @router.get("/{username}")
-async def read_user(username: str, db: Session = Depends(get_db)) -> schemas.User:
+async def read_user_by_username(
+    username: str, db: Session = Depends(get_db)
+) -> schemas.User:
     db_user = services.get_user_by_username(db, username=username)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return db_user
+    return schemas.User.model_validate(db_user)
 
 
 @router.get("/id/{user_uuid}")
-async def read_user(user_uuid: UUID, db: Session = Depends(get_db)) -> schemas.User:
+async def read_user_by_uuid(
+    user_uuid: UUID, db: Session = Depends(get_db)
+) -> schemas.User:
     db_user = services.get_user_by_id(db, user_uuid=user_uuid)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    return db_user
+    return schemas.User.model_validate(db_user)
 
 
 @router.post("/")
@@ -52,4 +56,4 @@ async def update_user(
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found.")
     db_user = services.update_user(db=db, user_data=user_data, db_user=db_user)
-    return db_user
+    return schemas.User.model_validate(db_user)
