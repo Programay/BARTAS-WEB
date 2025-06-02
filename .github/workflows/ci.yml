@@ -103,4 +103,4 @@ jobs:
           UV_CACHE_DIR: ${{ runner.tool_cache }}/uv
         run: |
           cd backend
-          uv pip install -e .
+          uv pip install --system -e .
