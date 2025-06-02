@@ -1,4 +1,3 @@
-from typing import Type
 from uuid import UUID
 
 from sqlalchemy.orm import Session
@@ -13,11 +12,14 @@ def get_user_by_id(db: Session, user_uuid: UUID) -> models.User | None:
 
 def get_user_by_username(db: Session, username: str) -> schemas.User | None:
     user = db.query(models.User).filter(models.User.username == username).first()
-    return user
+    return schemas.User.model_validate(user)
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[Type[schemas.User]]:
-    return db.query(models.User).offset(skip).limit(limit).all()
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> list[schemas.User]:
+    return [
+        schemas.User.model_validate(user)
+        for user in db.query(models.User).offset(skip).limit(limit).all()
+    ]
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> models.User:
