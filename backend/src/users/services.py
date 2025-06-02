@@ -6,7 +6,7 @@ from backend.src.users import models, schemas
 from backend.src.users.utils import get_hashed_password
 
 
-def get_user_by_id(db: Session, user_uuid: UUID) -> models.User | None:
+def get_user_by_id(db: Session, user_uuid: UUID) -> schemas.User | None:
     user = db.query(models.User).filter(models.User.uuid == user_uuid).first()
     return schemas.User.model_validate(user)
 
