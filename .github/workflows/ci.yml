@@ -14,7 +14,7 @@ jobs:
         id: get-python-version
         run: echo "version=$(cat backend/.python-version)" >> $GITHUB_OUTPUT
 
-  lint:
+  backend-lint:
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +22,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ needs.setup.outputs.python-version }}
+          cache: 'pip'
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -29,9 +30,11 @@ jobs:
           version: "0.6.9"
 
       - name: Run linter
-        run: uvx ruff check .
+        run: |
+          cd backend
+          uvx ruff check .
 
-  typecheck:
+  backend-typecheck:
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -39,6 +42,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ needs.setup.outputs.python-version }}
+          cache: 'pip'
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -60,3 +64,65 @@ jobs:
           mypy backend/src/ \
             --config-file backend/pyproject.toml \
             --python-version ${{ needs.setup.outputs.python-version }}
+
+  frontend-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run linter
+        run: |
+          cd frontend
+          npm run lint
+
+  frontend-test:
+    needs: frontend-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd frontend
+          npm run test:unit
+
+  build:
+    needs: [backend-typecheck, frontend-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Build backend
+        run: |
+          cd backend
+          uv pip install -e .
