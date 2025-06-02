@@ -56,4 +56,4 @@ async def update_user(
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found.")
     db_user = services.update_user(db=db, user_data=user_data, db_user=db_user)
-    return schemas.User.model_valudate(db_user)
+    return schemas.User.model_validate(db_user)
