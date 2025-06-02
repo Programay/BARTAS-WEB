@@ -25,18 +25,14 @@ async def tokens(
     user: user_schemas.UserLogin, db: Session = Depends(get_db)
 ) -> schemas.LoginResponse:
     db_user = services.get_user_by_username(db, username=user.username)
-    if db_user is None:
+    if not db_user or not verify_password(
+        hashed_password=db_user.password, password=user.password
+    ):
         raise InvalidCredentialException()
 
-    if not verify_password(hashed_password=db_user.password, password=user.password):
-        raise InvalidCredentialException()
-
-    access_token = create_access_token(
-        subject=SubjectSchema(username=db_user.username, is_staff=db_user.is_staff)
-    )
-    refresh_token = create_refresh_token(
-        subject=SubjectSchema(username=db_user.username, is_staff=db_user.is_staff)
-    )
+    subject = SubjectSchema(username=db_user.username, is_staff=db_user.is_staff)
+    access_token = create_access_token(subject=subject)
+    refresh_token = create_refresh_token(subject=subject)
 
     return schemas.LoginResponse(access_token=access_token, refresh_token=refresh_token)
 
@@ -44,7 +40,7 @@ async def tokens(
 @router.post("/login/refresh")
 async def tokens_refresh(token: str) -> schemas.RefreshLoginResponse:
     is_expired, subject = is_refresh_token_valid(token)
-    if is_expired:
+    if is_expired and subject is None:
         raise InvalidTokenException()
     else:
         access_token = create_access_token(subject)
