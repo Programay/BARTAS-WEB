@@ -14,7 +14,7 @@ async def read_users(
     skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 ) -> list[schemas.User]:
     users = services.get_users(db, skip=skip, limit=limit)
-    return users
+    return [schemas.User.model_validate(user) for user in users]
 
 
 @router.get("/{username}")
