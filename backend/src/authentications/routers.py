@@ -42,8 +42,8 @@ async def tokens(
 @router.post("/login/refresh")
 async def tokens_refresh(token: str) -> schemas.RefreshLoginResponse:
     is_expired, subject = is_refresh_token_valid(token)
-    if is_expired:
+    if is_expired or subject is None:
         raise InvalidTokenException()
-    else:
-        access_token = create_access_token(subject)
-        return schemas.RefreshLoginResponse(access_token=access_token)
+
+    access_token = create_access_token(subject)
+    return schemas.RefreshLoginResponse(access_token=access_token)
